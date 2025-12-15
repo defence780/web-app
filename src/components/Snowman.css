@@ -1,0 +1,572 @@
+.snowman-container {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+}
+
+.snowman-bottom-right {
+  bottom: 80px;
+  right: 20px;
+}
+
+.snowman-bottom-left {
+  bottom: 80px;
+  left: 20px;
+}
+
+.snowman-top-left {
+  top: 80px;
+  left: 20px;
+}
+
+.snowman-top-right {
+  top: 80px;
+  right: 20px;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.snowman {
+  width: 70px;
+  height: 120px;
+  position: relative;
+}
+
+/* Капелюх */
+.snowman-hat {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.hat-top {
+  width: 20px;
+  height: 25px;
+  background: linear-gradient(135deg, #424242 0%, #212121 100%);
+  border-radius: 50% 50% 0 0;
+  margin: 0 auto;
+  box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hat-brim {
+  width: 35px;
+  height: 8px;
+  background: linear-gradient(135deg, #616161 0%, #424242 100%);
+  border-radius: 50%;
+  margin: -2px auto 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hat-band {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 4px;
+  background: linear-gradient(90deg, #d32f2f 0%, #c62828 50%, #d32f2f 100%);
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(211, 47, 47, 0.5);
+}
+
+/* Голова */
+.snowman-head {
+  width: 45px;
+  height: 45px;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #f5f5f5 100%);
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.2),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.1),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+  z-index: 5;
+}
+
+/* Очі */
+.snowman-eye {
+  width: 5px;
+  height: 5px;
+  background: #1a3a5a;
+  border-radius: 50%;
+  position: absolute;
+  top: 15px;
+  animation: blink 3s infinite;
+  box-shadow: 0 0 3px rgba(26, 58, 90, 0.5);
+}
+
+.snowman-eye.left-eye {
+  left: 12px;
+}
+
+.snowman-eye.right-eye {
+  right: 12px;
+}
+
+.eye-pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 2px;
+  background: #0a1929;
+  border-radius: 50%;
+}
+
+@keyframes blink {
+  0%, 90%, 100% {
+    height: 5px;
+    opacity: 1;
+  }
+  92%, 98% {
+    height: 1px;
+    opacity: 0.3;
+  }
+}
+
+/* Ніс */
+.snowman-nose {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid #ff9800;
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+  animation: wiggle 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 3px rgba(255, 152, 0, 0.5));
+}
+
+.nose-shine {
+  position: absolute;
+  top: -8px;
+  left: -2px;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: translateX(-50%) rotate(180deg);
+  }
+  25% {
+    transform: translateX(-50%) rotate(182deg);
+  }
+  75% {
+    transform: translateX(-50%) rotate(178deg);
+  }
+}
+
+/* Рот */
+.snowman-mouth {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+}
+
+.mouth-piece {
+  width: 3px;
+  height: 3px;
+  background: #1a3a5a;
+  border-radius: 50%;
+  animation: mouth-move 2s ease-in-out infinite;
+}
+
+.mouth-piece.piece-1 {
+  animation-delay: 0s;
+}
+
+.mouth-piece.piece-2 {
+  animation-delay: 0.2s;
+}
+
+.mouth-piece.piece-3 {
+  animation-delay: 0.4s;
+}
+
+.mouth-piece.piece-4 {
+  animation-delay: 0.6s;
+}
+
+.mouth-piece.piece-5 {
+  animation-delay: 0.8s;
+}
+
+@keyframes mouth-move {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1px);
+  }
+}
+
+/* Щоки */
+.snowman-cheek {
+  position: absolute;
+  width: 8px;
+  height: 6px;
+  background: radial-gradient(circle, rgba(255, 182, 193, 0.6) 0%, transparent 100%);
+  border-radius: 50%;
+  top: 25px;
+  animation: cheek-glow 2s ease-in-out infinite;
+}
+
+.snowman-cheek.cheek-left {
+  left: 5px;
+}
+
+.snowman-cheek.cheek-right {
+  right: 5px;
+}
+
+@keyframes cheek-glow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Шарф */
+.snowman-scarf {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 12px;
+  background: linear-gradient(90deg, 
+    #d32f2f 0%,
+    #ef5350 25%,
+    #d32f2f 50%,
+    #ef5350 75%,
+    #d32f2f 100%
+  );
+  border-radius: 6px;
+  z-index: 4;
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.scarf-end {
+  position: absolute;
+  width: 8px;
+  height: 15px;
+  background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+  border-radius: 0 0 4px 4px;
+  animation: scarf-sway 2s ease-in-out infinite;
+}
+
+.scarf-end.end-left {
+  left: -5px;
+  top: 8px;
+  animation-delay: 0s;
+}
+
+.scarf-end.end-right {
+  right: -5px;
+  top: 8px;
+  animation-delay: 1s;
+}
+
+@keyframes scarf-sway {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+/* Тіло */
+.snowman-body {
+  width: 55px;
+  height: 55px;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #f5f5f5 100%);
+  border-radius: 50%;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.2),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.1),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+  z-index: 3;
+}
+
+/* Гудзики */
+.snowman-button {
+  width: 7px;
+  height: 7px;
+  background: radial-gradient(circle at 30% 30%, #64b5f6 0%, #1a3a5a 100%);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.2),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+  animation: button-shine 3s ease-in-out infinite;
+}
+
+.button-shine {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: shine-rotate 2s linear infinite;
+}
+
+@keyframes button-shine {
+  0%, 100% {
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      inset -1px -1px 2px rgba(0, 0, 0, 0.2),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 0 8px rgba(100, 181, 246, 0.5),
+      inset -1px -1px 2px rgba(0, 0, 0, 0.2),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes shine-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.snowman-button.button1 {
+  top: 58px;
+  animation-delay: 0s;
+}
+
+.snowman-button.button2 {
+  top: 68px;
+  animation-delay: 1s;
+}
+
+.snowman-button.button3 {
+  top: 78px;
+  animation-delay: 2s;
+}
+
+/* Основа */
+.snowman-base {
+  width: 65px;
+  height: 55px;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #f5f5f5 100%);
+  border-radius: 50%;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.2),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.1),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+  z-index: 2;
+}
+
+/* Руки */
+.snowman-arm {
+  position: absolute;
+  top: 65px;
+  z-index: 1;
+}
+
+.snowman-arm.arm-left {
+  left: -8px;
+  transform: rotate(-20deg);
+  animation: arm-sway-left 3s ease-in-out infinite;
+}
+
+.snowman-arm.arm-right {
+  right: -8px;
+  transform: rotate(20deg);
+  animation: arm-sway-right 3s ease-in-out infinite;
+}
+
+.arm-branch {
+  width: 25px;
+  height: 4px;
+  background: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.arm-branch::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);
+  border-radius: 50% 0 50% 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes arm-sway-left {
+  0%, 100% {
+    transform: rotate(-20deg);
+  }
+  50% {
+    transform: rotate(-25deg);
+  }
+}
+
+@keyframes arm-sway-right {
+  0%, 100% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(25deg);
+  }
+}
+
+/* Сніг навколо */
+.snowman-snow {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  animation: snow-float 4s ease-in-out infinite;
+}
+
+.snowman-snow.snow-1 {
+  bottom: -5px;
+  left: 10px;
+  animation-delay: 0s;
+}
+
+.snowman-snow.snow-2 {
+  bottom: -8px;
+  right: 15px;
+  animation-delay: 1s;
+}
+
+.snowman-snow.snow-3 {
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: 2s;
+}
+
+.snowman-snow.snow-4 {
+  bottom: -6px;
+  left: 30px;
+  animation-delay: 1.5s;
+}
+
+@keyframes snow-float {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateY(0) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.2);
+  }
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .snowman {
+    width: 50px;
+    height: 85px;
+  }
+  
+  .snowman-head {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .snowman-body {
+    width: 40px;
+    height: 40px;
+    top: 35px;
+  }
+  
+  .snowman-base {
+    width: 45px;
+    height: 40px;
+    top: 70px;
+  }
+  
+  .snowman-hat .hat-top {
+    width: 15px;
+    height: 20px;
+  }
+  
+  .snowman-hat .hat-brim {
+    width: 28px;
+    height: 6px;
+  }
+  
+  .snowman-scarf {
+    width: 40px;
+    height: 10px;
+    top: 30px;
+  }
+  
+  .snowman-eye {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .snowman-button {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .snowman-container.snowman-bottom-right {
+    bottom: 80px;
+    right: 10px;
+  }
+  
+  .snowman-container.snowman-bottom-left {
+    bottom: 80px;
+    left: 10px;
+  }
+}

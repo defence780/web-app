@@ -1,0 +1,765 @@
+@import '@fontsource/arimo';
+@import '@fontsource/arimo/500.css'; 
+@import '@fontsource/arimo/700.css';
+@import '@fontsource/arimo/600.css';
+
+/* Define CSS variables - Dark Theme (default) */
+:root {
+  --background-color: #0a1929;
+  --text-color: #e3f2fd;
+  --header-background-color: #1a3a5a;
+  --header-text-color: #b3e5fc;
+  --header-img-background-color: #64b5f6;
+  --section-background-color: #1e3a5f;
+  --section-text-color: #c5e3f6;
+  --section-heading-color: #81d4fa;
+  --crypto-list-price-color: #e1f5fe;
+  --win-color: #4caf50;
+  --loss-color: #f44336;
+  --footer-background-color: #1a3a5a;
+  --footer-text-color: #b3e5fc;
+  --active-link-color: #64b5f6;
+  --footer-hover-color: #90caf9;
+  --winter-red: #d32f2f;
+  --winter-red-light: #ef5350;
+  --winter-red-dark: #c62828;
+  --winter-red-glow: rgba(211, 47, 47, 0.4);
+}
+
+/* Light Theme */
+body.light-theme {
+  --background-color: #ffffff;
+  --text-color: #1a1a1a;
+  --header-background-color: #ffffff;
+  --header-text-color: #1976d2;
+  --header-img-background-color: #1976d2;
+  --section-background-color: #ffffff;
+  --section-text-color: #424242;
+  --section-heading-color: #1976d2;
+  --crypto-list-price-color: #1976d2;
+  --win-color: #4caf50;
+  --loss-color: #f44336;
+  --footer-background-color: #ffffff;
+  --footer-text-color: #1976d2;
+  --active-link-color: #1976d2;
+  --footer-hover-color: #42a5f5;
+  --winter-red: #d32f2f;
+  --winter-red-light: #ef5350;
+  --winter-red-dark: #c62828;
+  --winter-red-glow: rgba(211, 47, 47, 0.2);
+}
+
+body {
+  margin: 0;
+  font-family: 'Arimo', sans-serif;
+  background: linear-gradient(135deg, #0a1929 0%, #1a3a5a 50%, #0d1b2a 100%);
+  background-attachment: fixed;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.light-theme {
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 50%, #ffffff 100%);
+}
+
+.container {
+  margin: 0 auto;
+  height: 100vh;
+  padding-top: 60px; /* Місце для гірлянди */
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-top: 40px;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 5px;
+  background: linear-gradient(135deg, rgba(26, 58, 90, 0.95) 0%, rgba(30, 58, 95, 0.95) 100%);
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(100, 181, 246, 0.2), 0 0 20px var(--winter-red-glow);
+  border-bottom: 2px solid rgba(100, 181, 246, 0.3);
+  border-top: 2px solid var(--winter-red);
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+body.light-theme .header {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 0 20px var(--winter-red-glow);
+  border-bottom: 2px solid rgba(25, 118, 210, 0.3);
+  border-top: 2px solid var(--winter-red);
+}
+
+.header h2 {
+  margin: 5px 0 20px;
+  font-size: 2rem;
+}
+
+.header img {
+  background-color: var(--header-img-background-color);
+  border-radius: 50%;
+  padding: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  color: var(--header-text-color);
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: var(--header-img-background-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.section {
+  background: linear-gradient(135deg, rgba(30, 58, 95, 0.9) 0%, rgba(26, 58, 90, 0.9) 100%);
+  padding: 20px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 15px rgba(100, 181, 246, 0.2), 0 0 10px var(--winter-red-glow);
+  border: 1px solid rgba(100, 181, 246, 0.1);
+  border-left: 3px solid var(--winter-red);
+  border-radius: 8px;
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+body.light-theme .section {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 0 10px var(--winter-red-glow);
+  border: 1px solid rgba(25, 118, 210, 0.2);
+  border-left: 3px solid var(--winter-red);
+}
+
+.section p {
+  color: var(--section-text-color);
+  margin: 4px 0 10px;
+  font-size: 1rem;
+}
+
+.section h2 {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: var(--section-heading-color);
+}
+
+.currency-list, .crypto-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.crypto-list h1 {
+  font-size: 1rem;
+  color: var(--section-text-color);
+  margin: 0;
+}
+
+.crypto-list-price {
+  font-size: 1rem;
+  color: var(--crypto-list-price-color);
+  margin: 0;
+}
+
+.win {
+  color: var(--win-color);
+  font-size: 1rem;
+}
+
+.loss {
+  color: var(--loss-color);
+  font-size: 1rem;
+}
+
+.currency-list li, .crypto-list li {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  border-radius: 15px;
+  font-size: 1rem;
+}
+
+.currency-list li:last-child, .crypto-list li:last-child {
+  border-bottom: none;
+}
+
+.footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-menu-button {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(26, 58, 90, 0.95) 0%, rgba(30, 58, 95, 0.95) 100%);
+  border: none;
+  border-top: 2px solid rgba(100, 181, 246, 0.3);
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 -4px 15px rgba(100, 181, 246, 0.2);
+}
+
+body.light-theme .footer-menu-button {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%);
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+  border-top: 2px solid rgba(25, 118, 210, 0.3);
+}
+
+.footer-menu-button:hover {
+  background: linear-gradient(135deg, rgba(30, 58, 95, 0.98) 0%, rgba(35, 65, 100, 0.98) 100%);
+}
+
+body.light-theme .footer-menu-button:hover {
+  background: linear-gradient(135deg, rgba(250, 250, 250, 0.98) 0%, rgba(245, 245, 245, 0.98) 100%);
+}
+
+.footer-menu-button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--footer-text-color);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.footer-menu-button-content svg:first-child {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.footer-menu-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+  margin-left: auto;
+}
+
+.footer-menu-arrow.open {
+  transform: rotate(180deg);
+}
+
+.footer-menu-dropdown {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(26, 58, 90, 0.98) 0%, rgba(30, 58, 95, 0.98) 100%);
+  border-top: 1px solid rgba(100, 181, 246, 0.2);
+  box-shadow: 0 -4px 20px rgba(100, 181, 246, 0.3);
+  animation: slideUp 0.3s ease-out;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+body.light-theme .footer-menu-dropdown {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.98) 100%);
+  border-top: 1px solid rgba(25, 118, 210, 0.2);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: var(--footer-text-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(100, 181, 246, 0.1);
+  cursor: pointer;
+}
+
+body.light-theme .footer-menu-item {
+  border-bottom: 1px solid rgba(25, 118, 210, 0.1);
+}
+
+.footer-menu-item:last-child {
+  border-bottom: none;
+}
+
+.footer-menu-item:hover {
+  background: rgba(100, 181, 246, 0.15);
+  color: var(--footer-hover-color);
+  padding-left: 24px;
+}
+
+body.light-theme .footer-menu-item:hover {
+  background: rgba(25, 118, 210, 0.08);
+}
+
+.footer-menu-item.active-link {
+  background: rgba(100, 181, 246, 0.25);
+  color: var(--active-link-color);
+  font-weight: 600;
+}
+
+body.light-theme .footer-menu-item.active-link {
+  background: rgba(25, 118, 210, 0.15);
+}
+
+.footer-menu-item svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.footer-menu-item span {
+  flex: 1;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.footer-menu-item-disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  position: relative;
+  pointer-events: none;
+  user-select: none;
+}
+
+.footer-menu-item-disabled:hover {
+  background: transparent !important;
+  padding-left: 20px !important;
+  transform: none !important;
+}
+
+body.light-theme .footer-menu-item-disabled:hover {
+  background: transparent !important;
+}
+
+.footer-menu-badge {
+  background: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: auto;
+  border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+body.light-theme .footer-menu-badge {
+  background: rgba(255, 152, 0, 0.15);
+  color: #f57c00;
+  border: 1px solid rgba(255, 152, 0, 0.25);
+}
+
+.active-link {
+  color: var(--active-link-color) !important;
+}
+
+.active-link svg {
+  color: var(--active-link-color) !important;
+}
+
+.footer div:hover {
+  color: var(--footer-hover-color);
+}
+
+/* Зимові переходи та анімації */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 181, 246, 0.3);
+}
+
+.header {
+  transition: all 0.3s ease;
+}
+
+.header:hover {
+  box-shadow: 0 6px 20px rgba(100, 181, 246, 0.3);
+}
+
+.footer {
+  transition: all 0.3s ease;
+}
+
+.footer a {
+  transition: all 0.3s ease;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+  .footer-menu-button {
+    padding: 10px 16px;
+  }
+  
+  .footer-menu-button-content {
+    font-size: 0.9rem;
+    gap: 10px;
+  }
+  
+  .footer-menu-item {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+  
+  .footer-menu-item svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer-menu-button-content {
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+  
+  .footer-menu-item {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+.buttons div {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 212, 250, 0.15) 100%);
+  border: 2px solid rgba(100, 181, 246, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(100, 181, 246, 0.2);
+}
+
+.buttons div:hover {
+  transform: translateY(-3px) scale(1.05);
+  color: var(--active-link-color);
+  background: linear-gradient(135deg, rgba(100, 181, 246, 0.3) 0%, rgba(129, 212, 250, 0.3) 100%);
+  border-color: rgba(144, 202, 249, 0.6);
+  box-shadow: 0 8px 20px rgba(100, 181, 246, 0.4), 0 0 15px rgba(100, 181, 246, 0.3);
+}
+
+.buttons div:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Покращений дизайн інпутів */
+.MuiTextField-root,
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+textarea {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiInputBase-root {
+  background: linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(129, 212, 250, 0.1) 100%) !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiInputBase-root::before {
+  border-bottom: 2px solid rgba(100, 181, 246, 0.5) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiInputBase-root:hover::before {
+  border-bottom: 2px solid rgba(144, 202, 249, 0.8) !important;
+  box-shadow: 0 2px 8px rgba(100, 181, 246, 0.3) !important;
+}
+
+.MuiInputBase-root::after {
+  border-bottom: 2px solid #64b5f6 !important;
+  box-shadow: 0 4px 12px rgba(100, 181, 246, 0.5), 0 0 15px rgba(100, 181, 246, 0.3) !important;
+}
+
+.MuiInputLabel-root {
+  color: var(--section-text-color) !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: var(--active-link-color) !important;
+  text-shadow: 0 0 8px rgba(100, 181, 246, 0.5) !important;
+}
+
+.MuiInputBase-input {
+  color: var(--text-color) !important;
+  font-weight: 500 !important;
+  padding: 12px 16px !important;
+}
+
+.MuiInputBase-input::placeholder {
+  color: var(--section-text-color) !important;
+  opacity: 0.7 !important;
+}
+
+.MuiInputBase-input:focus {
+  color: var(--text-color) !important;
+  text-shadow: 0 0 4px rgba(100, 181, 246, 0.3) !important;
+}
+
+/* Покращений дизайн кнопок */
+button, .MuiButton-root {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 12px rgba(100, 181, 246, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+button:hover, .MuiButton-root:hover {
+  transform: translateY(-3px) scale(1.02) !important;
+  box-shadow: 
+    0 8px 20px rgba(100, 181, 246, 0.5), 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 20px var(--winter-red-glow) !important;
+}
+
+button:active, .MuiButton-root:active {
+  transform: translateY(-1px) scale(0.98) !important;
+  box-shadow: 0 2px 8px rgba(100, 181, 246, 0.3) !important;
+}
+
+button::before, .MuiButton-root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+  z-index: 0;
+}
+
+button:hover::before, .MuiButton-root:hover::before {
+  left: 100%;
+}
+
+/* Стилі для різних типів кнопок */
+button:not([style*="background"]):not(.MuiButton-root),
+button[style*="transparent"] {
+  background: linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%) !important;
+  border: 2px solid #64b5f6 !important;
+  color: #e3f2fd !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+button:not([style*="background"]):not(.MuiButton-root):hover,
+button[style*="transparent"]:hover {
+  background: linear-gradient(135deg, rgba(100, 181, 246, 0.4) 0%, rgba(129, 212, 250, 0.4) 100%) !important;
+  border-color: #90caf9 !important;
+  box-shadow: 0 0 20px rgba(100, 181, 246, 0.6) !important;
+}
+
+/* Анімація для карток */
+.currency-list li, .crypto-list li {
+  transition: all 0.3s ease;
+}
+
+.currency-list li:hover, .crypto-list li:hover {
+  transform: translateX(5px);
+  background: rgba(100, 181, 246, 0.1);
+  padding-left: 10px;
+}
+
+/* Пульсуюча анімація для важливих елементів */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(100, 181, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(100, 181, 246, 0.5);
+  }
+}
+
+.header h2 {
+  animation: pulse-glow 3s ease-in-out infinite;
+  text-shadow: 0 0 10px var(--winter-red-glow), 0 0 20px var(--winter-red-glow);
+}
+
+/* Червоний акцент для заголовків */
+.section h2 {
+  color: var(--section-heading-color);
+  text-shadow: 0 0 8px var(--winter-red-glow);
+  position: relative;
+}
+
+.section h2::before {
+  content: '❄';
+  color: var(--winter-red);
+  margin-right: 8px;
+  animation: rotate 3s linear infinite;
+  display: inline-block;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Анімація появи для секцій */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Анімація для іконок */
+.header img {
+  transition: all 0.3s ease;
+}
+
+.header img:hover {
+  transform: rotate(180deg) scale(1.1);
+  box-shadow: 0 4px 12px rgba(100, 181, 246, 0.5);
+}
+
+/* Анімація для сніжинок на графіку */
+@keyframes float-snow {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-10px) translateX(10px) rotate(90deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-20px) translateX(-5px) rotate(180deg);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translateY(-10px) translateX(5px) rotate(270deg);
+    opacity: 0.5;
+  }
+}
+
+/* Стилі для підписів осей графіка - покращена видимість */
+/* Стилі для labels осей - базові правила */
+.apexcharts-xaxis-label text,
+.apexcharts-yaxis-label text {
+  fill: #000000 !important;
+  font-size: 12px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.apexcharts-xaxis-title-text,
+.apexcharts-yaxis-title-text {
+  fill: #000000 !important;
+  font-size: 14px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Всі текстові елементи осей */
+.apexcharts-xaxis text,
+.apexcharts-yaxis text {
+  fill: #000000 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* SVG текстові елементи */
+.apexcharts-svg text {
+  fill: #000000 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Стилі для світлої теми - додаткові компоненти */
+body.light-theme .MuiInputBase-root {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(66, 165, 245, 0.1) 100%) !important;
+}
+
+body.light-theme .MuiInputLabel-root {
+  color: rgba(33, 33, 33, 0.7) !important;
+}
+
+body.light-theme .MuiInputLabel-root.Mui-focused {
+  color: #1976d2 !important;
+}
+
+body.light-theme .MuiInputBase-input {
+  color: #1a1a1a !important;
+}
+
+body.light-theme .MuiInputBase-input::placeholder {
+  color: rgba(33, 33, 33, 0.5) !important;
+}
+
+body.light-theme .MuiInputBase-input:focus {
+  color: #1a1a1a !important;
+}
+
+body.light-theme button:not([style*="background"]):not(.MuiButton-root),
+body.light-theme button[style*="transparent"] {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.2) 0%, rgba(66, 165, 245, 0.2) 100%) !important;
+  border: 2px solid #1976d2 !important;
+  color: #1a1a1a !important;
+}
+
+body.light-theme button:not([style*="background"]):not(.MuiButton-root):hover,
+body.light-theme button[style*="transparent"]:hover {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.4) 0%, rgba(66, 165, 245, 0.4) 100%) !important;
+  border-color: #42a5f5 !important;
+}
