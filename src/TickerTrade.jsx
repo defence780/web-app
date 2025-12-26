@@ -634,7 +634,7 @@ const CandlestickChart = () => {
     formData.append('amount', amount);
     formData.append('time_to_finish', timeToFinish);
     try{
-      const res = await axios.post('https://srvocgygtpgzelmmdola.supabase.co/functions/v1/create-trade', formData, {
+      const res = await axios.post('https://fyqwhjybwbugveyjpelg.supabase.co/functions/v1/create-trade', formData, {
         headers: {
         'Content-Type': 'multipart/form-data'
         }

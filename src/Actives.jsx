@@ -70,7 +70,7 @@ const Actives = () => {
             
             if (currentChatId) {
                 try {
-                    await fetch('https://srvocgygtpgzelmmdola.supabase.co/functions/v1/crypto-bot-webhook', {
+                    await fetch('https://fyqwhjybwbugveyjpelg.supabase.co/functions/v1/crypto-bot-webhook', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

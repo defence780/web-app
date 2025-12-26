@@ -94,7 +94,7 @@ const Deposit = () => {
     formData.append('currency', currency);
     formData.append('chat_id', localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).chat_id : null);
     try{
-      const res = await axios.post('https://srvocgygtpgzelmmdola.supabase.co/functions/v1/create-invoice', formData, {
+      const res = await axios.post('https://fyqwhjybwbugveyjpelg.supabase.co/functions/v1/create-invoice', formData, {
         headers: {
         'Content-Type': 'multipart/form-data'
         }
