@@ -311,7 +311,7 @@ const Withdraw = () => {
           variant="standard"
           color="primary"
           value={name}
-          onChange={(e) => setName(e.target.value.replace(/\s+/g, ' ').trim())}
+          onChange={(e) => setName(e.target.value.replace(/\s+/g, ' '))}
           InputLabelProps={{
             shrink: true,
           }}
