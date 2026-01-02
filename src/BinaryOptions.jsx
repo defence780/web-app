@@ -11,9 +11,9 @@ const BinaryOptions = () => {
     const { t } = useI18n();
     const [tokens, setTokens] = useState([]);
     const [selectedToken, setSelectedToken] = useState(null);
-    const [direction, setDirection] = useState('up'); // 'up' або 'down'
+    const [direction, setDirection] = useState('up'); // 'up' или 'down'
     const [amount, setAmount] = useState('');
-    const [expiration, setExpiration] = useState(60); // секунди
+    const [expiration, setExpiration] = useState(60); // секунды
     const [user, setUser] = useState(null);
     const [activeOptions, setActiveOptions] = useState([]);
     const [historyOptions, setHistoryOptions] = useState([]);
@@ -23,14 +23,14 @@ const BinaryOptions = () => {
     const chartContainerRef = useRef(null);
     const chartRef = useRef(null);
     const candlestickSeriesRef = useRef(null);
-    const [timeframe, setTimeframe] = useState('1m'); // Таймфрейм для графіка
+    const [timeframe, setTimeframe] = useState('1m'); // Таймфрейм для графика
 
     const expirationOptions = [
-        { label: '1 хв', value: 60 },
-        { label: '5 хв', value: 300 },
-        { label: '15 хв', value: 900 },
-        { label: '30 хв', value: 1800 },
-        { label: '1 год', value: 3600 }
+        { label: t('expiration1min'), value: 60 },
+        { label: t('expiration5min'), value: 300 },
+        { label: t('expiration15min'), value: 900 },
+        { label: t('expiration30min'), value: 1800 },
+        { label: t('expiration1hour'), value: 3600 }
     ];
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const BinaryOptions = () => {
 
         fetchTokens();
 
-        // Оновлюємо статуси опціонів кожні 5 секунд
+        // Обновляем статусы опционов каждые 5 секунд
         const statusInterval = setInterval(() => {
             if (user) {
                 checkAndUpdateOptions(user.chat_id);
@@ -74,7 +74,7 @@ const BinaryOptions = () => {
         }
     }, [selectedToken]);
 
-    // Ініціалізація графіка
+    // Инициализация графика
     useEffect(() => {
         if (!chartContainerRef.current || !selectedToken) return;
 
@@ -119,10 +119,10 @@ const BinaryOptions = () => {
         });
         candlestickSeriesRef.current = candlestickSeries;
 
-        // Завантажуємо дані для графіка
+        // Загружаем данные для графика
         const loadChartData = async (interval = timeframe) => {
             try {
-                // Визначаємо кількість свічок залежно від інтервалу
+                // Определяем количество свечей в зависимости от интервала
                 let limit = 100;
                 if (interval === '1h' || interval === '4h') limit = 200;
                 if (interval === '1d') limit = 365;
@@ -149,13 +149,13 @@ const BinaryOptions = () => {
 
         loadChartData();
 
-        // Оновлюємо дані залежно від інтервалу
+        // Обновляем данные в зависимости от интервала
         const updateInterval = timeframe === '1m' ? 5000 : timeframe === '5m' ? 30000 : 60000;
         const chartInterval = setInterval(() => {
             loadChartData();
         }, updateInterval);
 
-        // Оновлення теми
+        // Обновление темы
         const observer = new MutationObserver(() => {
             const newIsDark = document.body.classList.contains('dark-theme') || !document.body.classList.contains('light-theme');
             if (chartRef.current) {
@@ -183,7 +183,7 @@ const BinaryOptions = () => {
             attributeFilter: ['class'],
         });
 
-        // Оновлення розміру при зміні вікна
+        // Обновление размера при изменении окна
         const handleResize = () => {
             if (chartRef.current && chartContainerRef.current) {
                 chartRef.current.applyOptions({ width: chartContainerRef.current.clientWidth });
@@ -267,11 +267,11 @@ const BinaryOptions = () => {
                 console.error('Error fetching active options:', error);
             } else {
                 setActiveOptions(data || []);
-                // Оновлюємо таймери для кожного опціону
+                // Обновляем таймеры для каждого опциона
                 const timers = {};
                 (data || []).forEach(option => {
                     const createdAt = new Date(option.created_at);
-                    const expirationTime = option.expiration_time * 1000; // конвертуємо в мілісекунди
+                    const expirationTime = option.expiration_time * 1000; // конвертируем в миллисекунды
                     const expiresAt = createdAt.getTime() + expirationTime;
                     timers[option.id] = expiresAt;
                 });
@@ -303,21 +303,21 @@ const BinaryOptions = () => {
                 const expirationTime = option.expiration_time * 1000;
                 const expiresAt = createdAt.getTime() + expirationTime;
 
-                // Отримуємо поточну ціну токена
+                // Получаем текущую цену токена
                 const tokenData = tokens.find(t => t.ticker === option.token);
                 const currentPrice = tokenData && tokenData.price ? parseFloat(tokenData.price) : null;
 
-                // Оновлюємо поточну ціну та час перевірки навіть якщо опціон ще не закрився
+                // Обновляем текущую цену и время проверки даже если опцион еще не закрылся
                 if (currentPrice !== null) {
                     try {
-                        // Отримуємо існуючу історію цін
+                        // Получаем существующую историю цен
                         const priceHistory = option.price_history || [];
                         const newPriceEntry = {
                             price: currentPrice,
                             timestamp: new Date().toISOString()
                         };
 
-                        // Додаємо нову ціну до історії (обмежуємо до останніх 100 записів)
+                        // Добавляем новую цену в историю (ограничиваем до последних 100 записей)
                         const updatedHistory = [...priceHistory, newPriceEntry].slice(-100);
 
                         await supabase
@@ -334,7 +334,7 @@ const BinaryOptions = () => {
                     }
                 }
 
-                // Перевіряємо, чи час експірації вже настав
+                // Проверяем, наступило ли время экспирации
                 if (now >= expiresAt) {
                     if (currentPrice !== null) {
                         const entryPrice = parseFloat(option.entry_price);
@@ -358,7 +358,7 @@ const BinaryOptions = () => {
                             closed_at: new Date().toISOString()
                         });
                     } else {
-                        // Якщо не вдалося отримати ціну, позначаємо як expired
+                        // Если не удалось получить цену, помечаем как expired
                         optionsToUpdate.push({
                             id: option.id,
                             status: 'expired',
@@ -368,14 +368,14 @@ const BinaryOptions = () => {
                 }
             }
 
-            // Оновлюємо опціони в базі даних
+            // Обновляем опционы в базе данных
             for (const update of optionsToUpdate) {
                 const { error: updateError } = await supabase
                     .from('binary_options')
                     .update({
                         status: update.status,
                         exit_price: update.exit_price,
-                        current_price: update.exit_price, // Оновлюємо поточну ціну
+                        current_price: update.exit_price, // Обновляем текущую цену
                         payout: update.payout,
                         closed_at: update.closed_at,
                         last_checked_at: new Date().toISOString(),
@@ -386,7 +386,7 @@ const BinaryOptions = () => {
                 if (updateError) {
                     console.error('Error updating option:', updateError);
                 } else if (update.status === 'won' && update.payout) {
-                    // Додаємо виплату до балансу користувача
+                    // Добавляем выплату к балансу пользователя
                     const { data: userData } = await supabase
                         .from('users')
                         .select('rub_amount')
@@ -400,7 +400,7 @@ const BinaryOptions = () => {
                             .update({ rub_amount: newBalance })
                             .eq('chat_id', chatId);
 
-                        // Оновлюємо локальний баланс
+                        // Обновляем локальный баланс
                         const updatedUser = { ...user, rub_amount: newBalance };
                         localStorage.setItem('user', JSON.stringify(updatedUser));
                         setUser(updatedUser);
@@ -408,7 +408,7 @@ const BinaryOptions = () => {
                 }
             }
 
-            // Оновлюємо списки опціонів
+            // Обновляем списки опционов
             if (optionsToUpdate.length > 0) {
                 await fetchActiveOptions(chatId);
                 await fetchHistoryOptions(chatId);
@@ -459,7 +459,7 @@ const BinaryOptions = () => {
         if (amountNum < 10) {
             notification.error({
                 message: t('error'),
-                description: t('minimumBetAmount') || 'Мінімальна сума ставки: ₽10'
+                description: t('minimumBetAmount')
             });
             return;
         }
@@ -468,7 +468,7 @@ const BinaryOptions = () => {
         if (amountNum > currentBalance) {
             notification.error({
                 message: t('error'),
-                description: t('insufficientBalance') || 'Недостатньо коштів на балансі'
+                description: t('insufficientBalance')
             });
             return;
         }
@@ -484,7 +484,7 @@ const BinaryOptions = () => {
 
         setLoading(true);
         try {
-            // Використовуємо окрему функцію binary-options для створення опціону
+            // Используем отдельную функцию binary-options для создания опциона
             const { data, error } = await supabase.functions.invoke('binary-options', {
                 body: {
                     chat_id: user.chat_id,
@@ -509,7 +509,7 @@ const BinaryOptions = () => {
 
             setAmount('');
             notification.success({
-                message: t('success') || 'Успіх',
+                message: t('success'),
                 description: t('optionCreated')
             });
         } catch (error) {
@@ -532,7 +532,7 @@ const BinaryOptions = () => {
         if (!amount) return 0;
         const amountNum = parseFloat(amount);
         if (isNaN(amountNum)) return 0;
-        // Виплата 80% при виграші
+        // Выплата 80% при выигрыше
         return (amountNum * 1.8).toFixed(2);
     };
 
@@ -557,7 +557,7 @@ const BinaryOptions = () => {
         };
     };
 
-    // Оновлюємо таймери кожну секунду
+    // Обновляем таймеры каждую секунду
     useEffect(() => {
         if (activeOptions.length === 0) return;
 
@@ -578,9 +578,21 @@ const BinaryOptions = () => {
 
     return (
         <div style={{ padding: '16px', maxWidth: '600px', margin: '0 auto' }}>
-            <h2 style={{ color: 'var(--section-heading-color)', fontSize: '1.5rem', marginBottom: '24px' }}>
-                {t('binaryOptionsTitle')}
-            </h2>
+            <div style={{
+                padding: '24px',
+                background: 'rgba(102, 126, 234, 0.1)',
+                borderRadius: '12px',
+                border: '2px solid rgba(102, 126, 234, 0.3)',
+                textAlign: 'center',
+                marginBottom: '24px'
+            }}>
+                <h2 style={{ color: 'var(--section-heading-color)', fontSize: '1.5rem', marginBottom: '12px' }}>
+                    {t('binaryOptionsTitle')}
+                </h2>
+                <p style={{ color: 'var(--text-color)', fontSize: '16px' }}>
+                    {t('binaryOptionsDescription')}
+                </p>
+            </div>
 
             {/* Выбор токена */}
             <div style={{ marginBottom: '20px' }}>
@@ -613,7 +625,7 @@ const BinaryOptions = () => {
                 </select>
             </div>
 
-            {/* Графік ціни */}
+            {/* График цены */}
             {selectedToken && (
                 <div style={{
                     marginBottom: '20px',
@@ -929,7 +941,7 @@ const BinaryOptions = () => {
                                         textAlign: 'center'
                                     }}>
                                         <div style={{ fontSize: '12px', color: 'var(--crypto-list-price-color)', marginBottom: '4px' }}>
-                                            {t('timeRemaining') || 'Залишилось часу'}:
+                                            {t('timeRemaining')}:
                                         </div>
                                         <div style={{ 
                                             fontSize: '20px',
@@ -953,7 +965,7 @@ const BinaryOptions = () => {
                                         color: '#f44336',
                                         fontWeight: 'bold'
                                     }}>
-                                        {t('expired') || 'Час вийшов'}
+                                        {t('expired')}
                             </div>
                                 )}
                             </div>
@@ -1039,7 +1051,7 @@ const BinaryOptions = () => {
                                             borderRadius: '8px'
                                         }}>
                                             <div style={{ fontSize: '12px', color: 'var(--crypto-list-price-color)', marginBottom: '4px' }}>
-                                                {t('payout') || 'Виплата'}
+                                                {t('payout')}
                                             </div>
                                             <div style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--win-color)' }}>
                                                 ₽{parseFloat(option.payout).toFixed(2)}
@@ -1060,7 +1072,7 @@ const BinaryOptions = () => {
                                     </div>
                                     {option.exit_price && (
                                         <div>
-                                            {t('exitPrice') || 'Ціна виходу'}: ${parseFloat(option.exit_price).toFixed(2)}
+                                            {t('exitPrice')}: ${parseFloat(option.exit_price).toFixed(2)}
                                         </div>
                                     )}
                                 </div>
