@@ -230,7 +230,7 @@ const CandlestickChart = () => {
         secondsVisible: false,
       },
       width: chartContainerRef.current.clientWidth,
-      height: 500,
+      height: 350,
     };
 
     const chart = createChart(chartContainerRef.current, chartOptions);
@@ -903,12 +903,12 @@ const CandlestickChart = () => {
           ))}
         </div>
         
-        <div style={{ position: 'relative', zIndex: 1, padding: '0' }}>
+        <div style={{ position: 'relative', zIndex: 1, padding: '0 20px', margin: '0 10px' }}>
           <div 
             ref={chartContainerRef}
             style={{ 
               width: '100%', 
-              height: '500px',
+              height: '350px',
               position: 'relative'
             }}
           />
@@ -917,46 +917,51 @@ const CandlestickChart = () => {
       {currentTickerMath.price && currentTicker.ticker && (
           <TockenCard token={{ ...currentTicker, ...currentTickerMath }} />
       )}
-      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '10px' }}>
-        {['1m', '5m', '30m', '1h', '1d'].map((interval) => (
-          <button
-            key={interval}
-            onClick={() => handleIntervalChange(interval)}
-            style={{
-              padding: '12px 24px',
-              cursor: 'pointer',
-              background: time === interval 
-                ? 'linear-gradient(135deg, #64b5f6 0%, #90caf9 50%, #b3e5fc 100%)' 
-                : 'linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%)',
-                  color: time === interval ? (document.body.classList.contains('light-theme') ? '#0a1929' : '#0a1929') : 'var(--text-color)',
-              border: time === interval ? '2px solid #90caf9' : '2px solid #64b5f6',
-              borderRadius: '10px',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              fontWeight: '700',
-              fontSize: '14px',
-              boxShadow: time === interval 
-                ? '0 6px 20px rgba(100, 181, 246, 0.5), 0 0 15px rgba(100, 181, 246, 0.3)' 
-                : '0 4px 12px rgba(100, 181, 246, 0.2)',
-              backdropFilter: 'blur(10px)',
-            }}
-            onMouseEnter={(e) => {
-              if (time !== interval) {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(100, 181, 246, 0.4) 0%, rgba(129, 212, 250, 0.4) 100%)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(100, 181, 246, 0.4)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (time !== interval) {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%)';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(100, 181, 246, 0.2)';
-              }
-            }}
-          >
-            {interval.toUpperCase()}
-          </button>
-        ))}
+      <div style={{ marginTop: '20px', marginBottom: '20px', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '8px', padding: '0 10px' }}>
+        {['1M', '5M', '30M', '1H', '1D'].map((interval) => {
+          const intervalLower = interval.toLowerCase();
+          const isActive = time === intervalLower;
+          return (
+            <button
+              key={interval}
+              onClick={() => handleIntervalChange(intervalLower)}
+              style={{
+                padding: '10px 20px',
+                cursor: 'pointer',
+                background: isActive 
+                  ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
+                  : 'rgba(102, 126, 234, 0.1)',
+                color: isActive ? '#ffffff' : 'var(--text-color)',
+                border: isActive ? '1px solid #667eea' : '1px solid rgba(102, 126, 234, 0.3)',
+                borderRadius: '8px',
+                transition: 'all 0.2s ease',
+                fontWeight: isActive ? '700' : '500',
+                fontSize: '13px',
+                boxShadow: isActive 
+                  ? '0 4px 12px rgba(102, 126, 234, 0.4)' 
+                  : '0 2px 4px rgba(0, 0, 0, 0.1)',
+                minWidth: '50px',
+                textAlign: 'center',
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'rgba(102, 126, 234, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 4px 8px rgba(102, 126, 234, 0.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'rgba(102, 126, 234, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                }
+              }}
+            >
+              {interval}
+            </button>
+          );
+        })}
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px', gap: '15px' }}>
@@ -1116,9 +1121,8 @@ const CandlestickChart = () => {
           </div>
         ))}
       </div>
-      <div style={{display: 'flex', justifyContent: 'space-around', marginTop: '50px', gap: '15px', color: 'var(--section-heading-color)'}}>
-        {t('rules')}
-      </div>
+      {/* Відступ внизу замість блоку правил */}
+      <div style={{marginTop: '50px', paddingBottom: '20px'}}></div>
     </div>
   );
 };
