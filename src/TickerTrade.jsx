@@ -626,9 +626,19 @@ const CandlestickChart = () => {
       })
       return
     }
+    // Перевірка та fallback для ticker
+    const tickerValue = currentTicker?.ticker || ticker;
+    if (!tickerValue) {
+      notification.error({
+        message: t('error'),
+        description: 'Ticker не знайдено. Спробуйте оновити сторінку.',
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('chat_id', user.chat_id);
-    formData.append('ticker', currentTicker.ticker);
+    formData.append('ticker', tickerValue);
     formData.append('trade_type', trade);
     formData.append('price', currentTickerMath.price);
     formData.append('amount', amount);
