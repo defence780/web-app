@@ -12,7 +12,7 @@ const CryptoItem = ({ item, index }) => {
       </div>
       <div>
         <p style={{ margin: '5px 0', textAlign: 'end', fontWeight: 700, color: 'var(--text-color)' }}>{parseFloat(String(item.amount)).toFixed(2)}</p>
-        <h1 style={{ margin: '5px 0', color: 'var(--text-color)' }}>{item.convertToUsd} $</h1>
+        <h1 style={{ margin: '5px 0', color: 'var(--text-color)' }}>{parseFloat(item.convertToUsd || 0).toFixed(2)} $</h1>
       </div>
     </li>
   );

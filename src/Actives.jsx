@@ -232,7 +232,7 @@ const Actives = () => {
                 <p>{t('accountId')}</p>
                 <strong style={{ color: 'var(--text-color)' }}>{(tradesStat?.isWin + tradesStat?.isLoss) || 0} / <span className='win'>{tradesStat?.isWin || 0}</span> / <span className='loss'>{tradesStat?.isLoss || 0}</span></strong>
                 <p>{t('statistics')}</p>
-                <strong style={{ color: 'var(--text-color)' }}>{tradesStat?.amount} USDT</strong>
+                <strong style={{ color: 'var(--text-color)' }}>{parseFloat(tradesStat?.amount || 0).toFixed(2)} USDT</strong>
                 <p>{t('tradingVolume')}</p>
                 {user?.verification_on ? (
                     user?.verification_needed ? (

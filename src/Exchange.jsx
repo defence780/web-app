@@ -269,7 +269,7 @@ const Exchange = () => {
         <div>
             <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>{t('russianRuble')}</p>
             <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-              {balanceLoading ? t('loading') : `${(optimisticBalances?.rub_amount ?? user.rub_amount)} ₽`}
+              {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.rub_amount ?? user.rub_amount) || 0).toFixed(2)} ₽`}
             </p>
         </div>
     </div>
@@ -280,7 +280,7 @@ const Exchange = () => {
         <div>
           <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>USDT</p>
           <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-            {balanceLoading ? t('loading') : `${(optimisticBalances?.usdt_amount ?? user.usdt_amount)} $`}
+            {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0).toFixed(2)} $`}
           </p>
         </div>
       </div>
@@ -294,7 +294,7 @@ const Exchange = () => {
         <div>
             <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>{t('russianRuble')}</p>
             <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-              {balanceLoading ? t('loading') : `${(optimisticBalances?.rub_amount ?? user.rub_amount)} ₽`}
+              {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.rub_amount ?? user.rub_amount) || 0).toFixed(2)} ₽`}
             </p>
         </div>
     </div>
@@ -306,7 +306,7 @@ const Exchange = () => {
         <div>
           <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>USDT</p>
           <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-            {balanceLoading ? t('loading') : `${(optimisticBalances?.usdt_amount ?? user.usdt_amount)} $`}
+            {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0).toFixed(2)} $`}
           </p>
         </div>
       </div>

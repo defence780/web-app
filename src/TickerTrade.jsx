@@ -745,7 +745,7 @@ const CandlestickChart = () => {
                 textShadow: '0 0 15px rgba(100, 181, 246, 0.6)',
                 lineHeight: '1.2'
               }}>
-                {user?.usdt_amount || '0.00'}
+                {parseFloat(user?.usdt_amount || 0).toFixed(2)}
               </span>
               <span style={{
                 color: 'var(--footer-hover-color)',
@@ -1051,7 +1051,7 @@ const CandlestickChart = () => {
               },
             }}
           />
-          <p style={{color: 'var(--text-color)'}}>{t('available')}: {user?.usdt_amount} USDT</p>
+          <p style={{color: 'var(--text-color)'}}>{t('available')}: {parseFloat(user?.usdt_amount || 0).toFixed(2)} USDT</p>
           <FormControl sx={{minWidth: 120}} required>
           <ButtonGroup
           sx={{display: 'flex', justifyContent: 'space-around', gap: '5px', flexWrap: 'wrap'}}
@@ -1105,11 +1105,11 @@ const CandlestickChart = () => {
         {trades.sort((a,b) => b.id - a.id).slice(0,5).map((trade) => (
           <div style={{padding: '4px',border: trade.isActive ? '1px solid var(--active-link-color)' : 'inherit', borderWidth: '1px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', borderRadius: '10px', backgroundColor: 'var(--section-background-color)'}}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-            <Typography.Text style={{color: 'var(--text-color)'}}>{trade.amount} USDT</Typography.Text>
+            <Typography.Text style={{color: 'var(--text-color)'}}>{parseFloat(trade.amount || 0).toFixed(2)} USDT</Typography.Text>
             <Typography.Text style={{color: trade.trade_type === 'buy' ? 'var(--win-color)' : 'var(--loss-color)'}}>{trade.trade_type === 'buy' ? t('purchase') : t('sale')}</Typography.Text>
             </div>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-              <Typography.Text style={{color: trade.isWin ? 'var(--win-color)' : trade.isWin !== null ? 'var(--loss-color)' : 'var(--text-color)' }}>{trade.isWin ? '+' : trade.isWin !== null ? '-' : ''}{parseFloat(trade.amount) * 0.75} USDT</Typography.Text>
+              <Typography.Text style={{color: trade.isWin ? 'var(--win-color)' : trade.isWin !== null ? 'var(--loss-color)' : 'var(--text-color)' }}>{trade.isWin ? '+' : trade.isWin !== null ? '-' : ''}{(parseFloat(trade.amount || 0) * 0.75).toFixed(2)} USDT</Typography.Text>
               <Typography.Text style={{color: 'var(--section-text-color)'}}>{ new Date(trade.created_at).toLocaleString('en-GB', {
               day: '2-digit',
               month: '2-digit',

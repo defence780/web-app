@@ -366,7 +366,7 @@ const Staking = () => {
                                     </Typography>
                                     
                                     <Typography variant="body2" sx={{ color: 'var(--win-color)', marginBottom: '10px' }}>
-                                        {t('rewards')}: {rewards.currentRewards.toFixed(4)} {stake.token_ticker}
+                                        {t('rewards')}: {rewards.currentRewards.toFixed(2)} {stake.token_ticker}
                                     </Typography>
                                     
                                     <Box sx={{ marginBottom: '10px' }}>
@@ -635,7 +635,7 @@ const Staking = () => {
                                         {t('expectedRewards')}
                                     </Typography>
                                     <Typography variant="h6" sx={{ color: 'var(--win-color)' }}>
-                                        {((parseFloat(stakeAmount) || 0) * (apyRates[stakePeriod] / 100)).toFixed(4)} {selectedToken.ticker.toUpperCase()}
+                                        {((parseFloat(stakeAmount) || 0) * (apyRates[stakePeriod] / 100)).toFixed(2)} {selectedToken.ticker.toUpperCase()}
                                     </Typography>
                                 </Box>
                             )}
