@@ -12,9 +12,6 @@ import Withdraw from './Withdraw';
 import Staking from './Staking';
 import Reviews from './Reviews';
 import BinaryOptions from './BinaryOptions';
-import Snowflakes from './components/Snowflakes';
-import WinterDecorations from './components/WinterDecorations';
-import Garland from './components/Garland';
 import { ThemeProvider, useTheme } from './ThemeContext';
 import { I18nProvider, useI18n } from './i18n/I18nContext';
 
@@ -352,9 +349,6 @@ const App = () => {
       <Router>
         <div className="container">
             <SettingsMenu />
-          <Garland />
-          <Snowflakes />
-          <WinterDecorations />
           <Routes>
             <Route path="/actives" element={<Actives />} />
             <Route path="/trade" element={<Trade />} />

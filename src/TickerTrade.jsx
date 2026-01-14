@@ -884,35 +884,6 @@ const CandlestickChart = () => {
           zIndex: 0
         }}></div>
         
-        {/* Сніжинки на фоні */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          pointerEvents: 'none',
-          zIndex: 0,
-          opacity: 0.3
-        }}>
-          {Array.from({ length: 15 }, (_, i) => (
-            <div
-              key={i}
-              style={{
-                position: 'absolute',
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                fontSize: `${8 + Math.random() * 12}px`,
-                color: 'var(--section-text-color)',
-                animation: `float-snow ${10 + Math.random() * 10}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 5}s`,
-              }}
-            >
-              ❄
-            </div>
-          ))}
-        </div>
-        
         <div style={{ position: 'relative', zIndex: 1, padding: '0 20px', margin: '0 10px' }}>
           <div 
             ref={chartContainerRef}
