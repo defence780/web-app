@@ -68,33 +68,135 @@ body.light-theme {
   }
 }
 
+/* New App Header (top navigation) */
+.app-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+body.light-theme .app-header {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body:not(.light-theme) .app-header {
+  background: rgba(26, 32, 54, 0.95);
+  border-bottom: 1px solid rgba(100, 181, 246, 0.2);
+}
+
+body:not(.light-theme) .header-icon-button {
+  color: #64b5f6;
+}
+
+body:not(.light-theme) .header-icon-button:hover {
+  color: #90caf9;
+  transform: scale(1.1);
+}
+
+body:not(.light-theme) .header-profile-pill {
+  background: rgba(100, 181, 246, 0.1);
+}
+
+body:not(.light-theme) .header-profile-pill:hover {
+  background: rgba(100, 181, 246, 0.2);
+}
+
+body:not(.light-theme) .header-profile-name {
+  color: #e3f2fd;
+}
+
+.header-icon-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #667eea;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.header-icon-button:hover {
+  color: #5568d3;
+  transform: scale(1.1);
+}
+
+.header-icon-button:active {
+  transform: scale(0.95);
+}
+
+.header-profile-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-profile-pill:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.header-profile-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.header-profile-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.header-right-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Balance Header (in Actives page) */
 .header {
   text-align: center;
   margin-bottom: 8px;
-  background: rgba(26, 32, 54, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  margin-top: 68px; /* Space for app-header */
+  background: transparent;
   padding: 24px 20px;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    0 2px 8px rgba(100, 181, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(100, 181, 246, 0.2);
-  border-top: 1px solid rgba(100, 181, 246, 0.15);
-  border-radius: 0 0 20px 20px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  box-shadow: none;
 }
 
 body.light-theme .header {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    0 2px 8px rgba(25, 118, 210, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid rgba(25, 118, 210, 0.15);
-  border-top: 1px solid rgba(25, 118, 210, 0.1);
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .header h2 {
@@ -720,19 +822,6 @@ button[style*="transparent"]:hover {
 }
 
 /* Пульсуюча анімація для важливих елементів */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 4px 15px rgba(100, 181, 246, 0.2);
-  }
-  50% {
-    box-shadow: 0 4px 25px rgba(100, 181, 246, 0.5);
-  }
-}
-
-.header h2 {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
 .section h2 {
   color: var(--section-heading-color);
   position: relative;

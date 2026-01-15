@@ -20,6 +20,7 @@ const Actives = () => {
     const [user, setUser] = useState();
     const [reviewIndex, setReviewIndex] = useState(0);
     const [reviewsList, setReviewsList] = useState([]);
+    const [showBalance, setShowBalance] = useState(true);
     const queryParams = new URLSearchParams(window.location.search);
     const chatId = queryParams.get('chat_id');
     const navigate = useNavigate()
@@ -209,8 +210,46 @@ const Actives = () => {
     return (
         <div>
             <header className="header">
-                <h1 style={{ color: 'var(--header-text-color)' }}>{t('totalBalance')}</h1>
-                <h2 style={{ color: 'var(--header-text-color)' }}>{parseFloat(amount).toFixed(2)}$</h2>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
+                    <h1 style={{ color: '#666', margin: 0, fontSize: '0.875rem', fontWeight: '400' }}>{t('totalBalance')}</h1>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px', marginBottom: '20px' }}>
+                    <h2 style={{ color: '#1976d2', margin: 0, fontSize: '2rem', fontWeight: '700' }}>
+                        {showBalance ? `$ ${parseFloat(amount).toFixed(2)}` : '$ •••'}
+                    </h2>
+                    <button
+                        onClick={() => setShowBalance(!showBalance)}
+                        style={{
+                            background: 'transparent',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#666',
+                            opacity: 0.7,
+                            transition: 'opacity 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                        onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
+                        aria-label={showBalance ? 'Hide balance' : 'Show balance'}
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            {showBalance ? (
+                                <>
+                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </>
+                            ) : (
+                                <>
+                                    <path d="M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65661 6.06 6.06M9.9 4.24C10.5883 4.0789 11.2931 3.99836 12 4C19 4 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M1 1L23 23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </>
+                            )}
+                        </svg>
+                    </button>
+                </div>
                 <div className="buttons">
                         <div onClick={handleDepositChange}>
                             <img src="/top.svg" width={30} height={30} />
