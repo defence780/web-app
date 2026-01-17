@@ -356,7 +356,6 @@ const App = () => {
       <Router>
         <div className="container">
             <Header />
-            <SettingsMenu />
           <Routes>
             <Route path="/actives" element={<Actives />} />
             <Route path="/trade" element={<Trade />} />
