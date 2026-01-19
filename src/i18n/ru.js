@@ -73,6 +73,9 @@ export default {
   exchangeFromTo: 'Обменять {from} на {to}',
   updateBalances: 'Обновить балансы',
   russianRuble: 'Российский рубль',
+  selectAll: 'Выбрать все',
+  approximateRate: 'Приблизительный курс',
+  youWillReceiveApproximately: 'Вы получите приблизительно',
 
   // Trade.jsx
   tradingPair: 'Торговая пара',

@@ -73,6 +73,9 @@ export default {
   exchangeFromTo: '{from} мәнін {to} мәніне айырбастау',
   updateBalances: 'Баланстарды жаңарту',
   russianRuble: 'Ресей рублі',
+  selectAll: 'Барлығын таңдау',
+  approximateRate: 'Жуық бағам',
+  youWillReceiveApproximately: 'Сіз шамамен аласыз',
 
   // Trade.jsx
   tradingPair: 'Сауда жұбы',

@@ -74,6 +74,48 @@ const Exchange = () => {
     tokens.find((item) => item.ticker.toUpperCase() === 'USDT')
   }, [tokens])
 
+  // Helper function to round down to 2 decimal places
+  const roundDown = (value) => {
+    const num = parseFloat(value) || 0;
+    return Math.floor(num * 100) / 100;
+  };
+
+  // Format balance with rounding down
+  const formatBalance = (value) => {
+    return roundDown(value).toFixed(2);
+  };
+
+  // Calculate exchange rate and received amount
+  const getExchangeRate = () => {
+    if (!rub || rub === 0) return 0;
+    if (from === 'RUB') {
+      return 1 / parseFloat(rub);
+    } else {
+      return parseFloat(rub);
+    }
+  };
+
+  const getReceivedAmount = () => {
+    if (!amount || amount === 0 || !rub || rub === 0) return 0;
+    const rate = getExchangeRate();
+    return parseFloat(amount) * rate;
+  };
+
+  const handleSelectAll = () => {
+    if (!user) return;
+    if (from === 'RUB') {
+      const balance = parseFloat(user.rub_amount || 0);
+      // Round down to 2 decimal places to avoid exceeding balance
+      const roundedDown = Math.floor(balance * 100) / 100;
+      setAmount(roundedDown.toFixed(2));
+    } else {
+      const balance = parseFloat(user.usdt_amount || 0);
+      // Round down to 2 decimal places to avoid exceeding balance
+      const roundedDown = Math.floor(balance * 100) / 100;
+      setAmount(roundedDown.toFixed(2));
+    }
+  };
+
   const handleExchange = async () => {
     if (submitLock.current || isSubmitting) return;
     submitLock.current = true;
@@ -92,30 +134,49 @@ const Exchange = () => {
     };
 
     try {
+      // Convert amount to number, handling both comma and dot as decimal separator
+      const amountNum = parseFloat(String(amount).replace(',', '.'));
+      
+      if (isNaN(amountNum) || amountNum <= 0) {
+        notification.error({
+          message: t('error'),
+          description: t('enterValidAmount'),
+        });
+        setIsSubmitting(false);
+        submitLock.current = false;
+        return;
+      }
+
       let fromCurrency, toCurrency, exchangeRate;
 
       if (from === 'RUB') {
         fromCurrency = 'RUB';
         toCurrency = 'USDT';
-        exchangeRate = 1 / rub; // Конвертуємо RUB в USDT
+        exchangeRate = 1 / parseFloat(rub); // Конвертуємо RUB в USDT
 
-        if (parseFloat(user.rub_amount) < amount) {
+        const rubBalance = parseFloat(user.rub_amount || 0);
+        if (rubBalance < amountNum) {
           notification.error({
             message: t('error'),
             description: t('exchangeInsufficientFunds'),
           });
+          setIsSubmitting(false);
+          submitLock.current = false;
           return;
         }
       } else {
         fromCurrency = 'USDT';
         toCurrency = 'RUB';
-        exchangeRate = rub; // Конвертуємо USDT в RUB
+        exchangeRate = parseFloat(rub); // Конвертуємо USDT в RUB
 
-        if (parseFloat(user.usdt_amount) < amount) {
+        const usdtBalance = parseFloat(user.usdt_amount || 0);
+        if (usdtBalance < amountNum) {
           notification.error({
             message: t('error'),
             description: t('exchangeInsufficientFunds'),
           });
+          setIsSubmitting(false);
+          submitLock.current = false;
           return;
         }
       }
@@ -125,13 +186,13 @@ const Exchange = () => {
       let optimistic = null;
       if (fromCurrency === 'RUB') {
         optimistic = {
-          rub_amount: rubBalance - amount,
-          usdt_amount: usdtBalance + amount * exchangeRate
+          rub_amount: rubBalance - amountNum,
+          usdt_amount: usdtBalance + amountNum * exchangeRate
         };
       } else {
         optimistic = {
-          rub_amount: rubBalance + amount * exchangeRate,
-          usdt_amount: usdtBalance - amount
+          rub_amount: rubBalance + amountNum * exchangeRate,
+          usdt_amount: usdtBalance - amountNum
         };
       }
       setOptimisticBalances(optimistic);
@@ -142,7 +203,7 @@ const Exchange = () => {
         chat_id: user.chat_id,
         from_currency: fromCurrency,
         to_currency: toCurrency,
-        amount: amount,
+        amount: amountNum,
         exchange_rate: exchangeRate
       });
 
@@ -152,7 +213,7 @@ const Exchange = () => {
           chat_id: user.chat_id,
           from_currency: fromCurrency,
           to_currency: toCurrency,
-          amount: amount,
+          amount: amountNum,
           exchange_rate: exchangeRate
         }
       });
@@ -269,7 +330,7 @@ const Exchange = () => {
         <div>
             <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>{t('russianRuble')}</p>
             <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-              {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.rub_amount ?? user.rub_amount) || 0).toFixed(2)} ₽`}
+              {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.rub_amount ?? user.rub_amount) || 0)} ₽`}
             </p>
         </div>
     </div>
@@ -280,7 +341,7 @@ const Exchange = () => {
         <div>
           <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>USDT</p>
           <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-            {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0).toFixed(2)} $`}
+            {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0)} $`}
           </p>
         </div>
       </div>
@@ -294,7 +355,7 @@ const Exchange = () => {
         <div>
             <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>{t('russianRuble')}</p>
             <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-              {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.rub_amount ?? user.rub_amount) || 0).toFixed(2)} ₽`}
+              {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.rub_amount ?? user.rub_amount) || 0)} ₽`}
             </p>
         </div>
     </div>
@@ -306,27 +367,49 @@ const Exchange = () => {
         <div>
           <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>USDT</p>
           <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-            {balanceLoading ? t('loading') : `${parseFloat((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0).toFixed(2)} $`}
+            {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0)} $`}
           </p>
         </div>
       </div>
       </>
       )}
 
-      <TextField
-        label={t('amount')}
-        variant="standard"
-        type="number"
-        color='primary'
-        value={amount}
-        onChange={(e) => {
-          const v = e.target.value;
-          const limited = v.includes('.') ? v.split('.')[0] + '.' + v.split('.')[1].slice(0, 2) : v;
-          setAmount(limited);
-        }}
-        sx={{
-          maxWidth: '200px',
-          marginBottom: '20px',
+      {/* Exchange Rate Display */}
+      {rub > 0 && (
+        <div style={{ 
+          marginBottom: '15px', 
+          padding: '12px', 
+          background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(129, 212, 250, 0.1) 100%)',
+          borderRadius: '10px',
+          border: '1px solid rgba(100, 181, 246, 0.3)'
+        }}>
+          <p style={{ margin: '5px 0', color: 'var(--section-text-color)', fontSize: '14px' }}>
+            {t('approximateRate')}: <span style={{ color: 'var(--text-color)', fontWeight: '600' }}>
+              1 {from} = {getExchangeRate().toFixed(6)} {to}
+            </span>
+          </p>
+        </div>
+      )}
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+        <TextField
+          label={t('amount')}
+          variant="standard"
+          type="number"
+          color='primary'
+          value={amount}
+          onChange={(e) => {
+            let v = e.target.value;
+            // Replace comma with dot for consistent parsing
+            v = v.replace(',', '.');
+            // Limit decimal places to 2
+            const limited = v.includes('.') ? v.split('.')[0] + '.' + v.split('.')[1].slice(0, 2) : v;
+            setAmount(limited);
+          }}
+          sx={{
+            flex: 1,
+            maxWidth: '200px',
+            marginBottom: '20px',
           '& .MuiInputBase-root': {
             color: 'var(--text-color)',
             background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 212, 250, 0.15) 100%)',
@@ -402,12 +485,52 @@ const Exchange = () => {
                   },
                 }}
               >
-                <p style={{color: 'var(--section-text-color)'}}>{to === 'RUB' ? '$' : '₽'}</p>
+                <p style={{color: 'var(--section-text-color)'}}>{from === 'RUB' ? '₽' : '$'}</p>
               </InputAdornment>
             ),
           },
         }}
-      />
+        />
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleSelectAll}
+          disabled={!user || balanceLoading}
+          sx={{
+            textTransform: 'none',
+            minWidth: '100px',
+            height: '40px',
+            marginBottom: '20px',
+            background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%)',
+            borderColor: 'rgba(100, 181, 246, 0.5)',
+            color: 'var(--text-color)',
+            '&:hover': {
+              background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.3) 0%, rgba(129, 212, 250, 0.3) 100%)',
+              borderColor: 'rgba(100, 181, 246, 0.8)',
+            }
+          }}
+        >
+          {t('selectAll')}
+        </Button>
+      </div>
+
+      {/* Received Amount Display */}
+      {amount > 0 && rub > 0 && (
+        <div style={{ 
+          marginBottom: '15px', 
+          padding: '12px', 
+          background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 212, 250, 0.15) 100%)',
+          borderRadius: '10px',
+          border: '1px solid rgba(100, 181, 246, 0.4)'
+        }}>
+          <p style={{ margin: '5px 0', color: 'var(--section-text-color)', fontSize: '14px' }}>
+            {t('youWillReceiveApproximately')}: <span style={{ color: 'var(--active-link-color)', fontWeight: '700', fontSize: '16px' }}>
+              {formatBalance(getReceivedAmount())} {to === 'RUB' ? '₽' : '$'}
+            </span>
+          </p>
+        </div>
+      )}
+
       <div>
       <Button
         variant="contained"

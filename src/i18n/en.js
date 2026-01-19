@@ -73,6 +73,9 @@ export default {
   updateBalances: 'Update Balances',
   russianRuble: 'Russian Ruble',
   processing: 'Processing...',
+  selectAll: 'Select All',
+  approximateRate: 'Approximate Rate',
+  youWillReceiveApproximately: 'You will receive approximately',
 
   // Trade.jsx
   tradingPair: 'Trading Pair',
