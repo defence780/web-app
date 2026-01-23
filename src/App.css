@@ -118,27 +118,51 @@ body:not(.light-theme) .header-profile-name {
 
 .header-icon-button {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: clamp(32px, 4vw, 40px);
+  height: clamp(32px, 4vw, 40px);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border: clamp(1px, 0.15vw, 1.5px) solid rgba(102, 126, 234, 0.3);
+  border-radius: clamp(8px, 1vw, 10px);
   color: #667eea;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 
+    0 2px 8px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .header-icon-button:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.12) 100%);
+  border-color: rgba(102, 126, 234, 0.6);
   color: #5568d3;
   transform: scale(1.1);
+  box-shadow: 
+    0 4px 16px rgba(102, 126, 234, 0.3),
+    0 0 15px rgba(102, 126, 234, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .header-icon-button:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
+  box-shadow: 
+    0 2px 8px rgba(102, 126, 234, 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.header-icon-button svg path,
+.header-icon-button svg circle {
+  stroke-width: 2.5 !important;
+}
+
+.header-icon-button:hover svg path,
+.header-icon-button:hover svg circle {
+  stroke-width: 3 !important;
 }
 
 .header-profile-pill {
@@ -209,36 +233,64 @@ body:not(.light-theme) .header-profile-name {
 /* Іконка налаштувань у верхньому правому куті */
 .header-settings-button {
   position: absolute;
-  top: 8px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
+  top: clamp(6px, 0.8vw, 8px);
+  right: clamp(12px, 1.6vw, 16px);
+  width: clamp(32px, 4vw, 40px);
+  height: clamp(32px, 4vw, 40px);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: 2px solid rgba(25, 118, 210, 0.4);
-  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.08) 0%, rgba(100, 181, 246, 0.05) 100%);
+  border: clamp(1.5px, 0.2vw, 2px) solid rgba(25, 118, 210, 0.3);
+  border-radius: clamp(10px, 1.2vw, 12px);
   color: #1976d2;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 9998;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 
+    0 2px 8px rgba(25, 118, 210, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .header-settings-button:hover {
-  background: rgba(25, 118, 210, 0.1);
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.15) 0%, rgba(100, 181, 246, 0.12) 100%);
   border-color: rgba(25, 118, 210, 0.6);
-  transform: scale(1.05) rotate(90deg);
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+  transform: scale(1.08) rotate(90deg);
+  box-shadow: 
+    0 6px 20px rgba(25, 118, 210, 0.3),
+    0 0 15px rgba(25, 118, 210, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #42a5f5;
 }
 
 .header-settings-button:active {
-  transform: scale(0.95) rotate(90deg);
+  transform: scale(0.96) rotate(90deg);
+  box-shadow: 
+    0 2px 8px rgba(25, 118, 210, 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .header-settings-button svg {
-  width: 20px;
-  height: 20px;
+  width: clamp(16px, 2vw, 20px);
+  height: clamp(16px, 2vw, 20px);
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(25, 118, 210, 0.3));
+}
+
+.header-settings-button svg path,
+.header-settings-button svg circle {
+  stroke-width: 2.5 !important;
+}
+
+.header-settings-button:hover svg {
+  filter: drop-shadow(0 2px 4px rgba(25, 118, 210, 0.5));
+}
+
+.header-settings-button:hover svg path,
+.header-settings-button:hover svg circle {
+  stroke-width: 3 !important;
 }
 
 .header::before {
@@ -303,35 +355,86 @@ body.light-theme .header:hover {
 
 /* Покращена кнопка ока */
 .header-eye-button {
-  background: transparent;
-  border: 2px solid rgba(25, 118, 210, 0.3);
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(100, 181, 246, 0.08) 100%);
+  border: clamp(1.5px, 0.2vw, 2px) solid rgba(25, 118, 210, 0.4);
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: clamp(32px, 4vw, 40px);
+  height: clamp(32px, 4vw, 40px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: #1976d2;
   padding: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 
+    0 2px 8px rgba(25, 118, 210, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-eye-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(25, 118, 210, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
 }
 
 .header-eye-button:hover {
-  background: rgba(25, 118, 210, 0.1);
-  border-color: rgba(25, 118, 210, 0.5);
-  transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.2);
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.2) 0%, rgba(100, 181, 246, 0.15) 100%);
+  border-color: rgba(25, 118, 210, 0.7);
+  transform: scale(1.12);
+  box-shadow: 
+    0 4px 16px rgba(25, 118, 210, 0.3),
+    0 0 20px rgba(25, 118, 210, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #42a5f5;
+}
+
+.header-eye-button:hover::before {
+  width: 120%;
+  height: 120%;
 }
 
 .header-eye-button:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
+  box-shadow: 
+    0 2px 8px rgba(25, 118, 210, 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .header-eye-button svg {
-  width: 18px;
-  height: 18px;
+  width: clamp(16px, 2vw, 20px);
+  height: clamp(16px, 2vw, 20px);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 2px rgba(25, 118, 210, 0.3));
+}
+
+.header-eye-button svg path,
+.header-eye-button svg circle {
+  stroke-width: 2.5 !important;
+}
+
+.header-eye-button:hover svg {
+  filter: drop-shadow(0 2px 4px rgba(25, 118, 210, 0.5));
+  transform: scale(1.05);
+}
+
+.header-eye-button:hover svg path,
+.header-eye-button:hover svg circle {
+  stroke-width: 3 !important;
 }
 
 .header img {
@@ -376,17 +479,17 @@ body:not(.light-theme) .header h1:hover {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 12px;
+  gap: clamp(8px, 1.2vw, 12px);
   color: var(--header-img-background-color);
-  font-size: 0.95rem;
+  font-size: clamp(0.8rem, 0.95vw, 0.95rem);
   font-weight: 600;
   cursor: pointer;
   flex: 1;
-  padding: 20px 16px;
-  padding-top: 24px;
-  border-radius: 16px;
+  padding: clamp(12px, 2vw, 20px) clamp(12px, 1.6vw, 16px);
+  padding-top: clamp(16px, 2.4vw, 24px);
+  border-radius: clamp(12px, 1.6vw, 16px);
   background: linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(100, 181, 246, 0.08) 100%);
-  border: 2px solid rgba(25, 118, 210, 0.2);
+  border: clamp(1.5px, 0.2vw, 2px) solid rgba(25, 118, 210, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 
@@ -401,8 +504,8 @@ body:not(.light-theme) .header h1:hover {
 .buttons div img {
   position: relative;
   z-index: 1;
-  width: 30px;
-  height: 30px;
+  width: clamp(24px, 3vw, 30px);
+  height: clamp(24px, 3vw, 30px);
   display: block;
   margin: 0 auto;
 }
@@ -586,15 +689,15 @@ body.light-theme .section:hover {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: none;
-  border-top: 1px solid rgba(100, 181, 246, 0.2);
-  padding: 16px 20px;
+  border-top: clamp(0.8px, 0.1vw, 1px) solid rgba(100, 181, 246, 0.2);
+  padding: clamp(12px, 1.6vw, 16px) clamp(16px, 2vw, 20px);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 
     0 -8px 32px rgba(0, 0, 0, 0.3),
     0 -2px 8px rgba(100, 181, 246, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border-radius: 20px 20px 0 0;
+  border-radius: clamp(16px, 2vw, 20px) clamp(16px, 2vw, 20px) 0 0;
 }
 
 body.light-theme .footer-menu-button {
@@ -628,15 +731,15 @@ body.light-theme .footer-menu-button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: clamp(8px, 1.2vw, 12px);
   color: var(--footer-text-color);
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1vw, 1rem);
   font-weight: 500;
 }
 
 .footer-menu-button-content svg:first-child {
-  width: 24px;
-  height: 24px;
+  width: clamp(20px, 2.4vw, 24px);
+  height: clamp(20px, 2.4vw, 24px);
   flex-shrink: 0;
 }
 
@@ -692,13 +795,13 @@ body.light-theme .footer-menu-dropdown {
 .footer-menu-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 24px;
-  margin: 4px 12px;
+  gap: clamp(10px, 1.4vw, 14px);
+  padding: clamp(12px, 1.6vw, 16px) clamp(18px, 2.4vw, 24px);
+  margin: clamp(3px, 0.4vw, 4px) clamp(9px, 1.2vw, 12px);
   color: var(--footer-text-color);
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 12px;
+  border-radius: clamp(10px, 1.2vw, 12px);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -715,7 +818,7 @@ body.light-theme .footer-menu-dropdown {
   background: linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(129, 212, 250, 0.1) 100%);
   opacity: 0;
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 12px;
+  border-radius: clamp(10px, 1.2vw, 12px);
 }
 
 body.light-theme .footer-menu-item::before {
@@ -723,7 +826,7 @@ body.light-theme .footer-menu-item::before {
 }
 
 .footer-menu-item:last-child {
-  margin-bottom: 8px;
+  margin-bottom: clamp(6px, 0.8vw, 8px);
 }
 
 .footer-menu-item:hover {
@@ -746,7 +849,7 @@ body.light-theme .footer-menu-item:hover {
   color: var(--active-link-color);
   font-weight: 600;
   box-shadow: 
-    0 4px 16px rgba(100, 181, 246, 0.2),
+    0 clamp(3px, 0.4vw, 4px) clamp(12px, 1.6vw, 16px) rgba(100, 181, 246, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -758,7 +861,7 @@ body.light-theme .footer-menu-item:hover {
 body.light-theme .footer-menu-item.active-link {
   background: rgba(25, 118, 210, 0.15);
   box-shadow: 
-    0 4px 16px rgba(25, 118, 210, 0.15),
+    0 clamp(3px, 0.4vw, 4px) clamp(12px, 1.6vw, 16px) rgba(25, 118, 210, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
@@ -767,14 +870,14 @@ body.light-theme .footer-menu-item.active-link::before {
 }
 
 .footer-menu-item svg {
-  width: 24px;
-  height: 24px;
+  width: clamp(20px, 2.4vw, 24px);
+  height: clamp(20px, 2.4vw, 24px);
   flex-shrink: 0;
 }
 
 .footer-menu-item span {
   flex: 1;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1vw, 1rem);
   white-space: nowrap;
 }
 
@@ -859,43 +962,43 @@ body.light-theme .footer-menu-badge {
 /* Адаптивность для мобильных устройств */
 @media (max-width: 480px) {
   .footer-menu-button {
-    padding: 10px 16px;
+    padding: clamp(8px, 1vw, 10px) clamp(12px, 1.6vw, 16px);
   }
   
   .footer-menu-button-content {
-    font-size: 0.9rem;
-    gap: 10px;
+    font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+    gap: clamp(8px, 1vw, 10px);
   }
   
   .footer-menu-item {
-    padding: 12px 16px;
-    font-size: 0.95rem;
+    padding: clamp(10px, 1.2vw, 12px) clamp(12px, 1.6vw, 16px);
+    font-size: clamp(0.85rem, 0.95vw, 0.95rem);
   }
   
   .footer-menu-item svg {
-    width: 20px;
-    height: 20px;
+    width: clamp(18px, 2vw, 20px);
+    height: clamp(18px, 2vw, 20px);
   }
 }
 
 @media (max-width: 360px) {
   .footer-menu-button-content {
-    font-size: 0.85rem;
-    gap: 8px;
+    font-size: clamp(0.75rem, 0.85vw, 0.85rem);
+    gap: clamp(6px, 0.8vw, 8px);
   }
   
   .footer-menu-item {
-    padding: 10px 14px;
-    font-size: 0.9rem;
+    padding: clamp(8px, 1vw, 10px) clamp(12px, 1.4vw, 14px);
+    font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   }
 }
 
 .buttons div {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 12px 20px;
-  border-radius: 10px;
+  padding: clamp(8px, 1.2vw, 12px) clamp(16px, 2vw, 20px);
+  border-radius: clamp(8px, 1vw, 10px);
   background: linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 212, 250, 0.15) 100%);
-  border: 2px solid rgba(100, 181, 246, 0.3);
+  border: clamp(1.5px, 0.2vw, 2px) solid rgba(100, 181, 246, 0.3);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 12px rgba(100, 181, 246, 0.2);
 }
@@ -976,9 +1079,11 @@ button, .MuiButton-root {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative;
   overflow: hidden;
-  border-radius: 8px !important;
+  border-radius: clamp(6px, 0.8vw, 8px) !important;
   font-weight: 600 !important;
   text-transform: none !important;
+  font-size: clamp(0.85rem, 1vw, 1rem) !important;
+  padding: clamp(8px, 1vw, 12px) clamp(12px, 1.5vw, 16px) !important;
   box-shadow: 0 4px 12px rgba(100, 181, 246, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -1014,7 +1119,7 @@ button:hover::before, .MuiButton-root:hover::before {
 button:not([style*="background"]):not(.MuiButton-root),
 button[style*="transparent"] {
   background: linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%) !important;
-  border: 2px solid #64b5f6 !important;
+  border: clamp(1.5px, 0.2vw, 2px) solid #64b5f6 !important;
   color: #e3f2fd !important;
   backdrop-filter: blur(10px) !important;
 }
@@ -1148,7 +1253,7 @@ body.light-theme .MuiInputBase-input:focus {
 body.light-theme button:not([style*="background"]):not(.MuiButton-root),
 body.light-theme button[style*="transparent"] {
   background: linear-gradient(135deg, rgba(25, 118, 210, 0.2) 0%, rgba(66, 165, 245, 0.2) 100%) !important;
-  border: 2px solid #1976d2 !important;
+  border: clamp(1.5px, 0.2vw, 2px) solid #1976d2 !important;
   color: #1a1a1a !important;
 }
 
@@ -1156,4 +1261,66 @@ body.light-theme button:not([style*="background"]):not(.MuiButton-root):hover,
 body.light-theme button[style*="transparent"]:hover {
   background: linear-gradient(135deg, rgba(25, 118, 210, 0.4) 0%, rgba(66, 165, 245, 0.4) 100%) !important;
   border-color: #42a5f5 !important;
+}
+
+/* Стилі для іконок у світлій темі */
+body.light-theme .header-settings-button {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(66, 165, 245, 0.08) 100%);
+  border-color: rgba(25, 118, 210, 0.4);
+  color: #1976d2;
+  box-shadow: 
+    0 2px 8px rgba(25, 118, 210, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .header-settings-button:hover {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.18) 0%, rgba(66, 165, 245, 0.15) 100%);
+  border-color: rgba(25, 118, 210, 0.7);
+  box-shadow: 
+    0 6px 20px rgba(25, 118, 210, 0.25),
+    0 0 15px rgba(25, 118, 210, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  color: #1565c0;
+}
+
+body.light-theme .header-eye-button {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.12) 0%, rgba(66, 165, 245, 0.1) 100%);
+  border-color: rgba(25, 118, 210, 0.5);
+  color: #1976d2;
+  box-shadow: 
+    0 2px 8px rgba(25, 118, 210, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .header-eye-button:hover {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.22) 0%, rgba(66, 165, 245, 0.18) 100%);
+  border-color: rgba(25, 118, 210, 0.8);
+  box-shadow: 
+    0 4px 16px rgba(25, 118, 210, 0.25),
+    0 0 20px rgba(25, 118, 210, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  color: #1565c0;
+}
+
+body.light-theme .header-eye-button::before {
+  background: radial-gradient(circle, rgba(25, 118, 210, 0.25) 0%, transparent 70%);
+}
+
+body.light-theme .header-icon-button {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.08) 100%);
+  border-color: rgba(102, 126, 234, 0.4);
+  color: #667eea;
+  box-shadow: 
+    0 2px 8px rgba(102, 126, 234, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .header-icon-button:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.18) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-color: rgba(102, 126, 234, 0.7);
+  box-shadow: 
+    0 4px 16px rgba(102, 126, 234, 0.25),
+    0 0 15px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  color: #5568d3;
 }
