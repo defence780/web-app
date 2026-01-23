@@ -268,301 +268,224 @@ const Exchange = () => {
 
   return (
   <>
-  
-    <div className='section' style={{height: '100%'}}>
-    <NavLink to='/actives'>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{
-          marginBottom: '20px',
-          background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.3) 0%, rgba(129, 212, 250, 0.3) 100%)',
-          color: 'var(--text-color)',
-          fontWeight: '700',
-          fontSize: '14px',
-          padding: '10px 24px',
-          borderRadius: '10px',
-          border: '2px solid var(--active-link-color)',
-          boxShadow: '0 4px 12px rgba(100, 181, 246, 0.3)',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          textTransform: 'none',
-          backdropFilter: 'blur(10px)',
-          '&:hover': {
-            transform: 'translateY(-2px) scale(1.05)',
-            boxShadow: '0 6px 20px rgba(100, 181, 246, 0.5)',
-            background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.5) 0%, rgba(129, 212, 250, 0.5) 100%)',
-          },
-          '&:active': {
-            transform: 'translateY(0) scale(0.98)',
-          }
-        }}
-      >
-        {t('back')}
-      </Button>
-    </NavLink>
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-      <h2 style={{color: 'var(--text-color)'}}>{t('exchangeFromTo', { from, to })}</h2>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 10 }}>
-        <Button variant="outlined" size="small" onClick={refreshUser} sx={{ textTransform: 'none', minWidth: 120 }}>
+    <div className='section' style={{height: '100%', padding: '15px'}}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', gap: '12px' }}>
+        <NavLink to='/actives'>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            sx={{
+              background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.3) 0%, rgba(129, 212, 250, 0.3) 100%)',
+              color: 'var(--text-color)',
+              fontWeight: '600',
+              fontSize: '14px',
+              padding: '8px 20px',
+              borderRadius: '10px',
+              border: '1px solid var(--active-link-color)',
+              textTransform: 'none',
+              minWidth: 'auto',
+              '&:hover': {
+                background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.5) 0%, rgba(129, 212, 250, 0.5) 100%)',
+              }
+            }}
+          >
+            {t('back')}
+          </Button>
+        </NavLink>
+        <h3 style={{color: 'var(--text-color)', margin: 0, fontSize: '16px', fontWeight: '600'}}>{t('exchangeFromTo', { from, to })}</h3>
+        <Button variant="outlined" size="small" onClick={refreshUser} sx={{ textTransform: 'none', minWidth: 'auto', padding: '8px 20px', fontSize: '14px' }}>
           {t('updateBalances')}
         </Button>
       </div>
 
-      <div className='header'>
-      <img src="/swap.svg" width={30} height={30} onClick={() => {
-        if(to === 'RUB'){
-          setTo('USDT')
-        } else {
-          setTo('RUB')
-        }
-        if (from === 'RUB'){
-          setFrom('USDT')
-        }
-        else {
-          setFrom('RUB')
-        }
-      }}/>
-      </div>
-      {from === 'RUB' ? (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img src={'/rub.jpeg'} alt={'Rub'} width={30} height={30} style={{ borderRadius: '50%' }} />
-        <div>
-            <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>{t('russianRuble')}</p>
-            <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', marginBottom: '15px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src={'/usdt.png'} alt={'USDT'} width={32} height={32} style={{ borderRadius: '50%' }} />
+          <div>
+            <p style={{ margin: 0, color: 'var(--text-color)', fontSize: '14px', fontWeight: '500' }}>USDT</p>
+            <p style={{ margin: 0, color: 'var(--crypto-list-price-color)', fontSize: '13px' }}>
+              {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0)} $`}
+            </p>
+          </div>
+        </div>
+
+        <img src="/swap.svg" width={28} height={28} onClick={() => {
+          if(to === 'RUB'){
+            setTo('USDT')
+          } else {
+            setTo('RUB')
+          }
+          if (from === 'RUB'){
+            setFrom('USDT')
+          }
+          else {
+            setFrom('RUB')
+          }
+        }} style={{
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+          padding: '8px',
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(129, 212, 250, 0.1) 100%)',
+          border: '1px solid rgba(100, 181, 246, 0.3)',
+          margin: '0 8px'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(129, 212, 250, 0.1) 100%)';
+        }}/>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src={'/rub.jpeg'} alt={'Rub'} width={32} height={32} style={{ borderRadius: '50%' }} />
+          <div>
+            <p style={{ margin: 0, color: 'var(--text-color)', fontSize: '14px', fontWeight: '500' }}>{t('russianRuble')}</p>
+            <p style={{ margin: 0, color: 'var(--crypto-list-price-color)', fontSize: '13px' }}>
               {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.rub_amount ?? user.rub_amount) || 0)} ₽`}
             </p>
-        </div>
-    </div>
-      ) : (
-        <>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img src={'/usdt.png'} alt={item?.name || 'USDT'} width={30} height={30} style={{ borderRadius: '50%' }} />
-        <div>
-          <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>USDT</p>
-          <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-            {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0)} $`}
-          </p>
+          </div>
         </div>
       </div>
-      </>
-      )}
 
-      {to === 'RUB' ? (
-       
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img src={'/rub.jpeg'} alt={'Rub'} width={30} height={30} style={{ borderRadius: '50%' }} />
-        <div>
-            <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>{t('russianRuble')}</p>
-            <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-              {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.rub_amount ?? user.rub_amount) || 0)} ₽`}
-            </p>
-        </div>
-    </div>
-      
-      ) : (
-        <>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img src={'/usdt.png'} alt={item?.name || 'USDT'} width={30} height={30} style={{ borderRadius: '50%' }} />
-        <div>
-          <p style={{ margin: '5px 0', color: 'var(--text-color)' }}>USDT</p>
-          <p style={{ margin: '5px 0', color: 'var(--crypto-list-price-color)' }} className='crypto-list-price'>
-            {balanceLoading ? t('loading') : `${formatBalance((optimisticBalances?.usdt_amount ?? user.usdt_amount) || 0)} $`}
-          </p>
-        </div>
-      </div>
-      </>
-      )}
-
-      {/* Exchange Rate Display */}
       {rub > 0 && (
         <div style={{ 
           marginBottom: '15px', 
-          padding: '12px', 
+          padding: '12px 16px', 
           background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(129, 212, 250, 0.1) 100%)',
           borderRadius: '10px',
-          border: '1px solid rgba(100, 181, 246, 0.3)'
+          border: '1px solid rgba(100, 181, 246, 0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+          flexWrap: 'wrap'
         }}>
-          <p style={{ margin: '5px 0', color: 'var(--section-text-color)', fontSize: '14px' }}>
-            {t('approximateRate')}: <span style={{ color: 'var(--text-color)', fontWeight: '600' }}>
-              1 {from} = {getExchangeRate().toFixed(6)} {to}
-            </span>
-          </p>
+          <span style={{ color: 'var(--section-text-color)', fontSize: '14px' }}>
+            {t('approximateRate')}:
+          </span>
+          <span style={{ color: 'var(--text-color)', fontWeight: '600', fontSize: '14px' }}>
+            1 {from} = {getExchangeRate().toFixed(6)} {to}
+          </span>
         </div>
       )}
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '12px', marginBottom: '15px', flexWrap: 'wrap' }}>
         <TextField
           label={t('amount')}
           variant="standard"
           type="number"
           color='primary'
+          size="small"
           value={amount}
           onChange={(e) => {
             let v = e.target.value;
-            // Replace comma with dot for consistent parsing
             v = v.replace(',', '.');
-            // Limit decimal places to 2
             const limited = v.includes('.') ? v.split('.')[0] + '.' + v.split('.')[1].slice(0, 2) : v;
             setAmount(limited);
           }}
-          sx={{
-            flex: 1,
-            maxWidth: '200px',
-            marginBottom: '20px',
-          '& .MuiInputBase-root': {
-            color: 'var(--text-color)',
-            background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 212, 250, 0.15) 100%)',
-            borderRadius: '10px',
-            backdropFilter: 'blur(10px)',
-            padding: '8px 12px',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            '&:hover': {
-              background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.25) 0%, rgba(129, 212, 250, 0.25) 100%)',
-              boxShadow: '0 4px 12px rgba(100, 181, 246, 0.3)',
-            },
-          },
-          '& .MuiInputBase-root::before': {
-            borderBottom: '2px solid rgba(100, 181, 246, 0.5)',
-          },
-          '& .MuiInputBase-root:hover::before': {
-            borderBottom: '2px solid rgba(144, 202, 249, 0.8)',
-            boxShadow: '0 2px 8px rgba(100, 181, 246, 0.3)',
-          },
-          '& .MuiInputBase-root::after': {
-            borderBottom: '2px solid var(--active-link-color)',
-            boxShadow: '0 4px 12px rgba(100, 181, 246, 0.5), 0 0 15px rgba(100, 181, 246, 0.3)',
-          },
-          '& .MuiInputLabel-root': {
-            color: 'var(--section-text-color)',
-            fontWeight: '500',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: 'var(--active-link-color)',
-            textShadow: '0 0 8px rgba(100, 181, 246, 0.5)',
-          },
-          '& .MuiInputBase-input': {
-            color: 'var(--text-color)',
-            fontWeight: '500',
-            padding: '12px 16px',
-            '&::placeholder': {
-              color: 'var(--section-text-color)',
-              opacity: 1,
-            },
-            '&:focus': {
-              color: 'var(--text-color)',
-              textShadow: '0 0 4px rgba(100, 181, 246, 0.3)',
-            },
-          },
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: 'rgba(100, 181, 246, 0.5)',
-              borderWidth: '2px',
-              borderRadius: '10px',
-            },
-            '&:hover fieldset': {
-              borderColor: 'rgba(144, 202, 249, 0.8)',
-              boxShadow: '0 0 8px rgba(100, 181, 246, 0.3)',
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: '#64b5f6',
-              boxShadow: '0 0 15px rgba(100, 181, 246, 0.5)',
-            },
-          },
-        }}
-        required
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment
-                position="end"
-                sx={{
-                  opacity: 0,
-                  pointerEvents: 'none',
-                  [`[data-shrink=true] ~ .${inputBaseClasses.root} > &`]: {
-                    opacity: 1,
-                  },
-                }}
-              >
-                <p style={{color: 'var(--section-text-color)'}}>{from === 'RUB' ? '₽' : '$'}</p>
-              </InputAdornment>
-            ),
-          },
-        }}
+            sx={{
+              flex: 1,
+              minWidth: '150px',
+              maxWidth: '250px',
+              '& .MuiInputBase-root': {
+                color: 'var(--text-color)',
+                background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 212, 250, 0.15) 100%)',
+                borderRadius: '10px',
+                padding: '8px 12px',
+                fontSize: '14px',
+              },
+              '& .MuiInputLabel-root': {
+                fontSize: '14px',
+                color: 'var(--section-text-color)',
+              },
+              '& .MuiInputBase-input': {
+                padding: '8px 12px',
+                fontSize: '14px',
+              },
+            }}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <span style={{color: 'var(--section-text-color)', fontSize: '14px'}}>{from === 'RUB' ? '₽' : '$'}</span>
+                  </InputAdornment>
+                ),
+              },
+            }}
         />
         <Button
           variant="outlined"
           size="small"
           onClick={handleSelectAll}
           disabled={!user || balanceLoading}
-          sx={{
-            textTransform: 'none',
-            minWidth: '100px',
-            height: '40px',
-            marginBottom: '20px',
-            background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%)',
-            borderColor: 'rgba(100, 181, 246, 0.5)',
-            color: 'var(--text-color)',
-            '&:hover': {
-              background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.3) 0%, rgba(129, 212, 250, 0.3) 100%)',
-              borderColor: 'rgba(100, 181, 246, 0.8)',
-            }
-          }}
+            sx={{
+              textTransform: 'none',
+              minWidth: 'auto',
+              padding: '8px 20px',
+              fontSize: '14px',
+              height: '40px',
+              background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.2) 0%, rgba(129, 212, 250, 0.2) 100%)',
+              borderColor: 'rgba(100, 181, 246, 0.5)',
+              color: 'var(--text-color)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.3) 0%, rgba(129, 212, 250, 0.3) 100%)',
+              }
+            }}
         >
           {t('selectAll')}
         </Button>
       </div>
 
-      {/* Received Amount Display */}
       {amount > 0 && rub > 0 && (
         <div style={{ 
           marginBottom: '15px', 
-          padding: '12px', 
+          padding: '12px 16px', 
           background: 'linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 212, 250, 0.15) 100%)',
           borderRadius: '10px',
-          border: '1px solid rgba(100, 181, 246, 0.4)'
+          border: '1px solid rgba(100, 181, 246, 0.4)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+          flexWrap: 'wrap'
         }}>
-          <p style={{ margin: '5px 0', color: 'var(--section-text-color)', fontSize: '14px' }}>
-            {t('youWillReceiveApproximately')}: <span style={{ color: 'var(--active-link-color)', fontWeight: '700', fontSize: '16px' }}>
-              {formatBalance(getReceivedAmount())} {to === 'RUB' ? '₽' : '$'}
-            </span>
-          </p>
+          <span style={{ color: 'var(--section-text-color)', fontSize: '14px' }}>
+            {t('youWillReceiveApproximately')}:
+          </span>
+          <span style={{ color: 'var(--active-link-color)', fontWeight: '700', fontSize: '16px' }}>
+            {formatBalance(getReceivedAmount())} {to === 'RUB' ? '₽' : '$'}
+          </span>
         </div>
       )}
 
-      <div>
       <Button
         variant="contained"
         color="primary"
         onClick={() => handleExchange()}
         disabled={isSubmitting}
+        fullWidth
         sx={{
-          marginTop: '20px',
           background: 'linear-gradient(135deg, #64b5f6 0%, #90caf9 100%)',
           color: 'var(--background-color)',
-          fontWeight: '700',
-          fontSize: '16px',
-          padding: '12px 32px',
+          fontWeight: '600',
+          fontSize: '15px',
+          padding: '10px 24px',
           borderRadius: '10px',
-          border: '2px solid #90caf9',
-          boxShadow: '0 6px 20px rgba(100, 181, 246, 0.5), 0 0 15px rgba(100, 181, 246, 0.3)',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          border: '1px solid #90caf9',
           textTransform: 'none',
+          marginTop: '10px',
           '&:hover': {
-            transform: 'translateY(-3px) scale(1.05)',
-            boxShadow: '0 8px 25px rgba(100, 181, 246, 0.6), 0 0 25px rgba(100, 181, 246, 0.4)',
             background: 'linear-gradient(135deg, #90caf9 0%, #b3e5fc 100%)',
-          },
-          '&:active': {
-            transform: 'translateY(-1px) scale(0.98)',
           }
         }}
       >
         {isSubmitting ? t('processing') : t('exchangeButton')}
       </Button>
       </div>
-    </div>
   </>
   );
 };
