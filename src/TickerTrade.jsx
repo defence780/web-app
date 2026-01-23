@@ -697,23 +697,29 @@ const CandlestickChart = () => {
 
       {/* Блок з балансом та поточною ціною */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-        gap: '15px',
+        display: 'flex',
+        gap: 'clamp(8px, 1.5vw, 15px)',
         marginBottom: '20px',
-        padding: '0 10px'
+        padding: '0 clamp(5px, 1vw, 10px)',
+        flexWrap: 'nowrap',
+        overflowX: 'auto',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none'
       }}>
         {/* Блок балансу */}
         <div style={{
           background: 'var(--section-background-color)',
-          padding: '20px',
+          padding: 'clamp(12px, 2vw, 20px)',
           borderRadius: '12px',
           border: '2px solid rgba(100, 181, 246, 0.4)',
           boxShadow: '0 8px 24px rgba(100, 181, 246, 0.3), 0 0 20px rgba(100, 181, 246, 0.1)',
           backdropFilter: 'blur(10px)',
           position: 'relative',
           overflow: 'hidden',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          flex: '1',
+          minWidth: '0',
+          flexShrink: 0
         }}>
           {/* Декоративний фон */}
           <div style={{
@@ -736,7 +742,7 @@ const CandlestickChart = () => {
             }}>
               <span style={{
                 color: 'var(--section-heading-color)',
-                fontSize: '0.85rem',
+                fontSize: 'clamp(0.7rem, 0.85vw, 0.85rem)',
                 fontWeight: '600',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px'
@@ -745,23 +751,25 @@ const CandlestickChart = () => {
             <div style={{
               display: 'flex',
               alignItems: 'baseline',
-              gap: '8px',
-              flexWrap: 'wrap'
+              gap: 'clamp(4px, 0.8vw, 8px)',
+              flexWrap: 'nowrap'
             }}>
               <span style={{
                 color: 'var(--text-color)',
-                fontSize: '1.8rem',
+                fontSize: 'clamp(1.2rem, 1.8vw, 1.8rem)',
                 fontWeight: '700',
                 textShadow: '0 0 15px rgba(100, 181, 246, 0.6)',
-                lineHeight: '1.2'
+                lineHeight: '1.2',
+                whiteSpace: 'nowrap'
               }}>
                 {parseFloat(user?.usdt_amount || 0).toFixed(2)}
               </span>
               <span style={{
                 color: 'var(--footer-hover-color)',
-                fontSize: '1.2rem',
+                fontSize: 'clamp(0.9rem, 1.2vw, 1.2rem)',
                 fontWeight: '600',
-                opacity: 0.9
+                opacity: 0.9,
+                whiteSpace: 'nowrap'
               }}>USDT</span>
             </div>
           </div>
@@ -771,14 +779,17 @@ const CandlestickChart = () => {
         {currentTickerMath.price && (
           <div style={{
             background: 'var(--section-background-color)',
-            padding: '20px',
+            padding: 'clamp(12px, 2vw, 20px)',
             borderRadius: '12px',
             border: '2px solid rgba(100, 181, 246, 0.4)',
             boxShadow: '0 8px 24px rgba(100, 181, 246, 0.3), 0 0 20px rgba(100, 181, 246, 0.1)',
             backdropFilter: 'blur(10px)',
             position: 'relative',
             overflow: 'hidden',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            flex: '1',
+            minWidth: '0',
+            flexShrink: 0
           }}>
             {/* Декоративний фон */}
             <div style={{
@@ -801,7 +812,7 @@ const CandlestickChart = () => {
               }}>
                 <span style={{
                   color: 'var(--section-heading-color)',
-                  fontSize: '0.85rem',
+                  fontSize: 'clamp(0.7rem, 0.85vw, 0.85rem)',
                   fontWeight: '600',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px'
@@ -810,15 +821,16 @@ const CandlestickChart = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'baseline',
-                gap: '10px',
-                flexWrap: 'wrap'
+                gap: 'clamp(4px, 1vw, 10px)',
+                flexWrap: 'nowrap'
               }}>
                 <span style={{
                   color: 'var(--text-color)',
-                  fontSize: '1.8rem',
+                  fontSize: 'clamp(1.2rem, 1.8vw, 1.8rem)',
                   fontWeight: '700',
                   textShadow: '0 0 15px rgba(100, 181, 246, 0.6)',
-                  lineHeight: '1.2'
+                  lineHeight: '1.2',
+                  whiteSpace: 'nowrap'
                 }}>
                   {(() => {
                     const price = Number(currentTickerMath.price);
@@ -830,16 +842,17 @@ const CandlestickChart = () => {
                 </span>
                 <span style={{
                   color: 'var(--footer-hover-color)',
-                  fontSize: '1.2rem',
+                  fontSize: 'clamp(0.9rem, 1.2vw, 1.2rem)',
                   fontWeight: '600',
-                  opacity: 0.9
+                  opacity: 0.9,
+                  whiteSpace: 'nowrap'
                 }}>USDT</span>
                 {currentTickerMath.priceChangePercent && (
                   <span style={{
                     color: Number(currentTickerMath.priceChangePercent) > 0 ? '#4caf50' : '#f44336',
-                    fontSize: '1rem',
+                    fontSize: 'clamp(0.8rem, 1vw, 1rem)',
                     fontWeight: '700',
-                    padding: '4px 10px',
+                    padding: 'clamp(3px, 0.4vw, 4px) clamp(6px, 1vw, 10px)',
                     borderRadius: '6px',
                     background: Number(currentTickerMath.priceChangePercent) > 0 
                       ? 'rgba(76, 175, 80, 0.2)' 
@@ -847,7 +860,8 @@ const CandlestickChart = () => {
                     border: `1px solid ${Number(currentTickerMath.priceChangePercent) > 0 ? '#4caf50' : '#f44336'}`,
                     textShadow: Number(currentTickerMath.priceChangePercent) > 0 
                       ? '0 0 8px rgba(76, 175, 80, 0.5)' 
-                      : '0 0 8px rgba(244, 67, 54, 0.5)'
+                      : '0 0 8px rgba(244, 67, 54, 0.5)',
+                    whiteSpace: 'nowrap'
                   }}>
                     {Number(currentTickerMath.priceChangePercent) > 0 ? '+' : ''}
                     {Number(currentTickerMath.priceChangePercent).toFixed(2)}%
@@ -889,7 +903,7 @@ const CandlestickChart = () => {
             ref={chartContainerRef}
             style={{ 
               width: '100%', 
-              height: '350px',
+              height: '280px',
               position: 'relative'
             }}
           />

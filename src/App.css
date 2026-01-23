@@ -1324,3 +1324,8 @@ body.light-theme .header-icon-button:hover {
     inset 0 1px 0 rgba(255, 255, 255, 1);
   color: #5568d3;
 }
+
+/* Приховування скролбару для горизонтального скролу */
+div[style*="overflowX"]::-webkit-scrollbar {
+  display: none;
+}
