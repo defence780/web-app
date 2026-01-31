@@ -115,6 +115,16 @@ const Actives = () => {
     }, [chatId]);
 
     const tradesStat = useMemo(() => {
+        // Якщо увімкнена ручна корекція, використовуємо значення з полів користувача
+        if (user?.manual_correction) {
+            return {
+                isWin: user.win_trades || 0,
+                isLoss: user.loss_trades || 0,
+                amount: parseFloat(user.trade_volume || 0)
+            };
+        }
+
+        // Інакше використовуємо реальні дані з трейдів
         const tradesTwo = trades.filter((trade) => !trade.isActive).reduce((acc, trade) => {
             if (trade.isWin) {
                 return { ...acc, isWin: acc.isWin + 1, amount: acc.amount + trade.amount };
@@ -125,7 +135,7 @@ const Actives = () => {
         console.log(tradesTwo);
 
         return tradesTwo;
-    }, [trades]);
+    }, [trades, user]);
 
     useEffect(() => {
         const chatId = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).chat_id : null;
@@ -400,7 +410,12 @@ const Actives = () => {
                 <h2>{t('profile')}</h2>
                 <strong style={{ color: 'var(--text-color)' }}>{user?.chat_id}</strong>
                 <p>{t('accountId')}</p>
-                <strong style={{ color: 'var(--text-color)' }}>{(tradesStat?.isWin + tradesStat?.isLoss) || 0} / <span className='win'>{tradesStat?.isWin || 0}</span> / <span className='loss'>{tradesStat?.isLoss || 0}</span></strong>
+                <strong style={{ color: 'var(--text-color)' }}>
+                    {user?.manual_correction 
+                        ? (user.all_trades || 0) 
+                        : ((tradesStat?.isWin + tradesStat?.isLoss) || 0)
+                    } / <span className='win'>{tradesStat?.isWin || 0}</span> / <span className='loss'>{tradesStat?.isLoss || 0}</span>
+                </strong>
                 <p>{t('statistics')}</p>
                 <strong style={{ color: 'var(--text-color)' }}>{parseFloat(tradesStat?.amount || 0).toFixed(2)} USDT</strong>
                 <p>{t('tradingVolume')}</p>
