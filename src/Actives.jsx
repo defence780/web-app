@@ -53,6 +53,7 @@ const Actives = () => {
     ];
 
     const fetchUser = async (chatId) => {
+        // Перевірка на блокування відбувається всередині функції
         const { data, error } = await supabase
             .from('users')
             .select('*')
@@ -61,14 +62,34 @@ const Actives = () => {
 
         if (error) {
             console.error('Error fetching user:', error);
-        } else {
-            console.log('User data:', data);
+            // Якщо користувач не знайдений
+            if (error.code === 'PGRST116') {
+                alert('Користувач не знайдений. Перевірте посилання.');
+                localStorage.removeItem('user');
+                return;
+            }
+            return;
         }
-        if (data) {
-            localStorage.setItem('user', JSON.stringify(data));
-            setUser(data);
-            setAmount((parseFloat(data.rub_amount / 79)) + parseFloat(data.usdt_amount));
+
+        if (!data) {
+            return;
         }
+
+        // Перевірка на блокування - ПЕРШОЮ, перед завантаженням даних
+        if (data.blocked === true) {
+            alert('Ваш аккаунт заблокирован. Вы не можете открыть ссылку на бота. Обратитесь к администратору.');
+            localStorage.removeItem('user');
+            // Очищаємо URL параметри
+            window.history.replaceState({}, document.title, window.location.pathname);
+            window.location.href = '/';
+            return;
+        }
+
+        // Якщо користувач не заблокований - завантажуємо дані
+        console.log('User data:', data);
+        localStorage.setItem('user', JSON.stringify(data));
+        setUser(data);
+        setAmount((parseFloat(data.rub_amount / 79)) + parseFloat(data.usdt_amount));
     };
 
     const fetchTrades = async (chatId) => {
@@ -87,8 +108,23 @@ const Actives = () => {
 
     useEffect(() => {
         if (chatId) {
-            fetchUser(chatId);
-            fetchTrades(chatId);
+            // Спочатку перевіряємо користувача на блокування
+            const checkAndLoad = async () => {
+                await fetchUser(chatId);
+                // Завантажуємо трейди тільки якщо користувач не заблокований
+                const storedUser = localStorage.getItem('user');
+                if (storedUser) {
+                    try {
+                        const parsedUser = JSON.parse(storedUser);
+                        if (parsedUser.chat_id && parsedUser.chat_id === chatId && !parsedUser.blocked) {
+                            fetchTrades(chatId);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing user from localStorage:', e);
+                    }
+                }
+            };
+            checkAndLoad();
         }
     }, [chatId]);
 

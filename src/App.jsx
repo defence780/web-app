@@ -341,6 +341,15 @@ const App = () => {
             console.log('User data:', data);
         }
         if (data) {
+            // Перевірка на блокування - ПЕРШОЮ, перед завантаженням даних
+            if (data.blocked === true) {
+                alert('Ваш аккаунт заблокирован. Вы не можете открыть ссылку на бота. Обратитесь к администратору.');
+                localStorage.removeItem('user');
+                // Очищаємо URL параметри
+                window.history.replaceState({}, document.title, window.location.pathname);
+                window.location.href = '/';
+                return;
+            }
             localStorage.setItem('user', JSON.stringify(data));
         }
     };
