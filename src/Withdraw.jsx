@@ -41,6 +41,56 @@ const Withdraw = () => {
     submitLock.current = true;
     setIsSubmitting(true);
 
+    // Перевірка налаштувань користувача перед виводом
+    if (!user?.chat_id) {
+      notification.error({
+        message: t('error'),
+        description: 'Користувач не знайдений. Будь ласка, оновіть сторінку.',
+      });
+      setIsSubmitting(false);
+      submitLock.current = false;
+      return;
+    }
+
+    // Отримуємо актуальні дані користувача з бази
+    const { data: currentUser, error: userError } = await supabase
+      .from('users')
+      .select('verification_needed, blocked')
+      .eq('chat_id', user.chat_id)
+      .single();
+
+    if (userError) {
+      notification.error({
+        message: t('error'),
+        description: 'Не вдалося перевірити налаштування користувача.',
+      });
+      setIsSubmitting(false);
+      submitLock.current = false;
+      return;
+    }
+
+    // Перевірка на блокування
+    if (currentUser?.blocked === true) {
+      notification.error({
+        message: t('error'),
+        description: 'Ваш аккаунт заблокований. Ви не можете вивести кошти.',
+      });
+      setIsSubmitting(false);
+      submitLock.current = false;
+      return;
+    }
+
+    // Перевірка верифікації
+    if (currentUser?.verification_needed === true) {
+      notification.error({
+        message: t('verificationError'),
+        description: t('verificationNotPassedError'),
+      });
+      setIsSubmitting(false);
+      submitLock.current = false;
+      return;
+    }
+
     if(parseFloat(amount) <= 0) {
       notification.error({
         message: t('error'),

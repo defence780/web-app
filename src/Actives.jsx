@@ -226,8 +226,42 @@ const Actives = () => {
     );
 
 
-    function onWithdrawalClick() {
-        if (user?.verification_needed) {
+    async function onWithdrawalClick() {
+        // Перевірка налаштувань користувача перед виводом
+        if (!user?.chat_id) {
+            notification.error({
+                message: t('error'),
+                description: 'Користувач не знайдений. Будь ласка, оновіть сторінку.',
+            });
+            return;
+        }
+
+        // Отримуємо актуальні дані користувача з бази
+        const { data: currentUser, error: userError } = await supabase
+            .from('users')
+            .select('verification_needed, blocked')
+            .eq('chat_id', user.chat_id)
+            .single();
+
+        if (userError) {
+            notification.error({
+                message: t('error'),
+                description: 'Не вдалося перевірити налаштування користувача.',
+            });
+            return;
+        }
+
+        // Перевірка на блокування
+        if (currentUser?.blocked === true) {
+            notification.error({
+                message: t('error'),
+                description: 'Ваш аккаунт заблокований. Ви не можете вивести кошти.',
+            });
+            return;
+        }
+
+        // Перевірка верифікації
+        if (currentUser?.verification_needed === true) {
             notification.error({
                 message: t('verificationError'),
                 description: t('verificationNotPassedError'),
