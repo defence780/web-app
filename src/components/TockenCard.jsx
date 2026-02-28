@@ -25,36 +25,36 @@ const TokenCard = ({ token }) => {
         e.currentTarget.style.transform = 'translateX(0)';
     };
 
-    // Функція для форматування ціни з правильним числом знаків після коми
+    // Функция для форматирования цены с правильным числом знаков после запятой
     const formatPrice = (price) => {
         if (!price) return '0';
         
         const numPrice = Number(price);
         
-        // Для USDT завжди 2 знаки
+        // Для USDT всегда 2 знака
         if (token.ticker.toUpperCase() === 'USDT') {
             return numPrice.toFixed(2);
         }
         
-        // Для дуже малих цін (менше 0.0001) показуємо до 8 знаків
+        // Для очень малых цен (меньше 0.0001) показываем до 8 знаков
         if (numPrice < 0.0001) {
             return numPrice.toFixed(8).replace(/\.?0+$/, '');
         }
-        // Для малих цін (менше 0.01) показуємо до 6 знаків
+        // Для малых цен (меньше 0.01) показываем до 6 знаков
         else if (numPrice < 0.01) {
             return numPrice.toFixed(6).replace(/\.?0+$/, '');
         }
-        // Для середніх цін (менше 1) показуємо до 4 знаків
+        // Для средних цен (меньше 1) показываем до 4 знаков
         else if (numPrice < 1) {
             return numPrice.toFixed(4).replace(/\.?0+$/, '');
         }
-        // Для великих цін показуємо 2 знаки
+        // Для больших цен показываем 2 знака
         else {
             return numPrice.toFixed(2);
         }
     };
 
-    // Перевіряємо, чи є ціна (для USDT ціна завжди 1)
+    // Проверяем, есть ли цена (для USDT цена всегда 1)
     const hasPrice = token.price || token.ticker.toUpperCase() === 'USDT';
     const priceValue = token.ticker.toUpperCase() === 'USDT' ? '1.00' : token.price;
     const formattedPrice = formatPrice(priceValue);

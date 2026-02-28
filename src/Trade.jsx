@@ -19,7 +19,7 @@ const Trade = () => {
             } else {
                 setTokens(data);
                 
-                // Запускаємо завантаження цін одразу після отримання токенів
+                // Запускаем загрузку цен сразу после получения токенов
                 if (data && data.length > 0) {
                     fetchCryptoPrices(data);
                 }
@@ -30,7 +30,7 @@ const Trade = () => {
     }, []);
 
     const fetchCryptoPrices = async (tokensList) => {
-        // Скасовуємо попередні запити, якщо вони є
+        // Отменяем предыдущие запросы, если они есть
         if (abortControllerRef.current) {
             abortControllerRef.current.abort();
         }
@@ -39,12 +39,12 @@ const Trade = () => {
         const signal = abortControllerRef.current.signal;
 
         try {
-            // Фільтруємо тільки ті токени, які потребують оновлення ціни
+            // Фильтруем только те токены, которым нужно обновление цены
             const tokensToFetch = tokensList.filter(item => item.ticker !== 'USDT');
             
             if (tokensToFetch.length === 0) return;
 
-            // Виконуємо всі запити паралельно
+            // Выполняем все запросы параллельно
             const responses = await Promise.all(
                 tokensToFetch.map((item) => 
                     fetch(binance + item.ticker.toUpperCase() + 'USDT', { signal })
@@ -58,16 +58,16 @@ const Trade = () => {
                 )
             );
 
-            // Оновлюємо тільки якщо компонент ще змонтований
+            // Обновляем только если компонент ещё смонтирован
             if (!signal.aborted) {
                 setTokens((prevTokens) => {
                     const priceMap = new Map();
                     tokensToFetch.forEach((item, index) => {
                         if (responses[index] && responses[index].lastPrice) {
-                            // Зберігаємо оригінальну ціну як рядок, щоб не втратити точність
+                            // Сохраняем оригинальную цену как строку, чтобы не потерять точность
                             const originalPrice = responses[index].lastPrice;
                             priceMap.set(item.ticker, {
-                                price: originalPrice, // Зберігаємо оригінальну ціну
+                                price: originalPrice, // Сохраняем оригинальную цену
                                 priceChangePercent: Number(responses[index].priceChangePercent).toFixed(2)
                             });
                         }
@@ -93,7 +93,7 @@ const Trade = () => {
         }
     };
 
-    // Очищення при розмонтуванні
+    // Очистка при размонтировании
     useEffect(() => {
         return () => {
             if (abortControllerRef.current) {

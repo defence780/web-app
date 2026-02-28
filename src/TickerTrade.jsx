@@ -89,7 +89,7 @@ const CandlestickChart = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     
-    // Спочатку встановлюємо user з localStorage для миттєвого відображення
+    // Сначала устанавливаем user из localStorage для мгновенного отображения
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
@@ -113,11 +113,11 @@ const CandlestickChart = () => {
         if (error) {
             console.error('Error fetching user:', error);
         } else if (data) {
-            // Перевірка на блокування - ПЕРШОЮ, перед завантаженням даних
+            // Проверка на блокировку — первой, перед загрузкой данных
             if (data.blocked === true) {
                 alert('Ваш аккаунт заблокирован. Вы не можете открыть ссылку на бота. Обратитесь к администратору.');
                 localStorage.removeItem('user');
-                // Очищаємо URL параметри
+                // Очищаем URL-параметры
                 window.history.replaceState({}, document.title, window.location.pathname);
                 window.location.href = '/';
                 return;
@@ -130,11 +130,11 @@ const CandlestickChart = () => {
       }
     };
 
-    // Завантажуємо user одразу при монтуванні
+    // Загружаем user сразу при монтировании
     if (storedUser) {
       fetchUser();
       
-      // Потім оновлюємо кожні 10 секунд
+      // Затем обновляем каждые 10 секунд
       const interval = setInterval(() => {
         fetchUser();
       }, 10000);
@@ -146,10 +146,10 @@ const CandlestickChart = () => {
   useEffect(() => {
     let interval
     if (user) {
-      // Викликаємо одразу при завантаженні
+      // Вызываем сразу при загрузке
       fetchUserTrades(user);
       
-      // Потім встановлюємо інтервал для оновлення кожні 5 секунд
+      // Затем устанавливаем интервал для обновления каждые 5 секунд
       interval = setInterval(() => {
         fetchUserTrades(user);  
       }, 5000)
@@ -287,7 +287,7 @@ const CandlestickChart = () => {
       chart.remove();
       chartRef.current = null;
       candlestickSeriesRef.current = null;
-      // Очищаємо всі індикатори
+      // Очищаем все индикаторы
       Object.keys(indicatorsRefs.current).forEach(key => {
         indicatorsRefs.current[key] = null;
       });
@@ -300,7 +300,7 @@ const CandlestickChart = () => {
     
     const fetchDataAndPrices = async () => {
       try {
-        // Запускаємо обидва запити паралельно для швидшої загрузки
+        // Запускаем оба запроса параллельно для быстрой загрузки
         const [candlestickData, priceResponse] = await Promise.all([
           fetchCandlestickData(ticker, time),
           fetch(`${binance}${ticker.toUpperCase()}USDT`).then(res => res.json())
@@ -327,9 +327,9 @@ const CandlestickChart = () => {
           });
         }
 
-        // Оновлюємо дані на lightweight-charts
+        // Обновляем данные на lightweight-charts
         if (candlestickSeriesRef.current && candlestickData && candlestickData.length > 0) {
-          // Конвертуємо дані в формат lightweight-charts
+          // Конвертируем данные в формат lightweight-charts
           const formattedData = candlestickData.map((d) => ({
             time: Math.floor(d.x.getTime() / 1000),
             open: d.y[0],
@@ -340,7 +340,7 @@ const CandlestickChart = () => {
           candlestickSeriesRef.current.setData(formattedData);
           lastFormattedDataRef.current = formattedData;
           
-          // Оновлюємо індикатори якщо вони активні
+          // Обновляем индикаторы, если они активны
           updateIndicators(formattedData);
           
           if (chartRef.current) {
@@ -348,17 +348,17 @@ const CandlestickChart = () => {
         }
         }
 
-        // Зберігаємо для сумісності з іншими частинами коду
+        // Сохраняем для совместимости с другими частями кода
         setSeries([{ data: candlestickData }]);
       } catch (error) {
         console.error('Error fetching data and prices:', error);
       }
     };
 
-    // Завантажуємо одразу
+    // Загружаем сразу
     fetchDataAndPrices();
 
-    // Потім оновлюємо кожні 5 секунд
+    // Затем обновляем каждые 5 секунд
     const interval = setInterval(() => {
       fetchDataAndPrices();
     }, 5000);
@@ -369,7 +369,7 @@ const CandlestickChart = () => {
     };
   }, [time, ticker]);
 
-  // Оновлення розміру чарта при зміні розміру вікна
+  // Обновление размера графика при изменении размера окна
   useEffect(() => {
     const handleResize = () => {
       if (chartRef.current && chartContainerRef.current) {
@@ -423,11 +423,11 @@ const CandlestickChart = () => {
       
       if (!chartRef.current || !candlestickSeriesRef.current) return newState;
       
-      // Отримуємо останні дані
+      // Получаем последние данные
       const formattedData = lastFormattedDataRef.current;
       
       if (newState[indicatorName]) {
-        // Створюємо індикатор
+        // Создаём индикатор
         const isDark = document.body.classList.contains('dark-theme') || !document.body.classList.contains('light-theme');
         
         if (indicatorName === 'sma20') {
@@ -518,7 +518,7 @@ const CandlestickChart = () => {
           }
         }
       } else {
-        // Видаляємо індикатор
+        // Удаляем индикатор
         if (indicatorName === 'rsi' && indicatorsRefs.current.rsi) {
           chartRef.current.removeSeries(indicatorsRefs.current.rsi);
           if (indicatorsRefs.current.rsiPane) {
@@ -635,12 +635,12 @@ const CandlestickChart = () => {
       })
       return
     }
-    // Перевірка та fallback для ticker
+    // Проверка и fallback для ticker
     const tickerValue = currentTicker?.ticker || ticker;
     if (!tickerValue) {
       notification.error({
         message: t('error'),
-        description: 'Ticker не знайдено. Спробуйте оновити сторінку.',
+        description: 'Тикер не найден. Попробуйте обновить страницу.',
       });
       return;
     }
@@ -704,7 +704,7 @@ const CandlestickChart = () => {
       </Button>
       </NavLink>
 
-      {/* Блок з балансом та поточною ціною */}
+      {/* Блок с балансом и текущей ценой */}
       <div style={{
         display: 'flex',
         gap: 'clamp(8px, 1.5vw, 15px)',
@@ -730,7 +730,7 @@ const CandlestickChart = () => {
           minWidth: '0',
           flexShrink: 0
         }}>
-          {/* Декоративний фон */}
+          {/* Декоративный фон */}
           <div style={{
             position: 'absolute',
             top: -50,
@@ -784,7 +784,7 @@ const CandlestickChart = () => {
           </div>
         </div>
 
-        {/* Блок поточної ціни */}
+        {/* Блок текущей цены */}
         {currentTickerMath.price && (
           <div style={{
             background: 'var(--section-background-color)',
@@ -800,7 +800,7 @@ const CandlestickChart = () => {
             minWidth: '0',
             flexShrink: 0
           }}>
-            {/* Декоративний фон */}
+            {/* Декоративный фон */}
             <div style={{
               position: 'absolute',
               top: -50,
@@ -891,7 +891,7 @@ const CandlestickChart = () => {
         border: '1px solid rgba(0, 0, 0, 0.1)',
         overflow: 'hidden'
       }}>
-        {/* Декоративний фон з патерном */}
+        {/* Декоративный фон с паттерном */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -1125,7 +1125,7 @@ const CandlestickChart = () => {
           </div>
         ))}
       </div>
-      {/* Відступ внизу замість блоку правил */}
+      {/* Отступ внизу вместо блока правил */}
       <div style={{marginTop: '50px', paddingBottom: '20px'}}></div>
     </div>
   );
@@ -1145,7 +1145,7 @@ const fetchCandlestickData = async (ticker, interval = '1m') => {
   }));
 };
 
-// Функції для розрахунку індикаторів
+// Функции для расчёта индикаторов
 const calculateSMA = (data, period) => {
   const result = [];
   for (let i = 0; i < data.length; i++) {

@@ -341,11 +341,11 @@ const App = () => {
             console.log('User data:', data);
         }
         if (data) {
-            // Перевірка на блокування - ПЕРШОЮ, перед завантаженням даних
+            // Проверка на блокировку — первой, перед загрузкой данных
             if (data.blocked === true) {
                 alert('Ваш аккаунт заблокирован. Вы не можете открыть ссылку на бота. Обратитесь к администратору.');
                 localStorage.removeItem('user');
-                // Очищаємо URL параметри
+                // Очищаем URL-параметры
                 window.history.replaceState({}, document.title, window.location.pathname);
                 window.location.href = '/';
                 return;

@@ -53,7 +53,7 @@ const Actives = () => {
     ];
 
     const fetchUser = async (chatId) => {
-        // Перевірка на блокування відбувається всередині функції
+        // Проверка на блокировку происходит внутри функции
         const { data, error } = await supabase
             .from('users')
             .select('*')
@@ -62,9 +62,9 @@ const Actives = () => {
 
         if (error) {
             console.error('Error fetching user:', error);
-            // Якщо користувач не знайдений
+            // Если пользователь не найден
             if (error.code === 'PGRST116') {
-                alert('Користувач не знайдений. Перевірте посилання.');
+                alert('Пользователь не найден. Проверьте ссылку.');
                 localStorage.removeItem('user');
                 return;
             }
@@ -75,17 +75,17 @@ const Actives = () => {
             return;
         }
 
-        // Перевірка на блокування - ПЕРШОЮ, перед завантаженням даних
+        // Проверка на блокировку — первой, перед загрузкой данных
         if (data.blocked === true) {
             alert('Ваш аккаунт заблокирован. Вы не можете открыть ссылку на бота. Обратитесь к администратору.');
             localStorage.removeItem('user');
-            // Очищаємо URL параметри
+            // Очищаем URL-параметры
             window.history.replaceState({}, document.title, window.location.pathname);
             window.location.href = '/';
             return;
         }
 
-        // Якщо користувач не заблокований - завантажуємо дані
+        // Если пользователь не заблокирован — загружаем данные
         console.log('User data:', data);
         localStorage.setItem('user', JSON.stringify(data));
         setUser(data);
@@ -108,10 +108,10 @@ const Actives = () => {
 
     useEffect(() => {
         if (chatId) {
-            // Спочатку перевіряємо користувача на блокування
+            // Сначала проверяем пользователя на блокировку
             const checkAndLoad = async () => {
                 await fetchUser(chatId);
-                // Завантажуємо трейди тільки якщо користувач не заблокований
+                // Загружаем трейды только если пользователь не заблокирован
                 const storedUser = localStorage.getItem('user');
                 if (storedUser) {
                     try {
@@ -151,7 +151,7 @@ const Actives = () => {
     }, [chatId]);
 
     const tradesStat = useMemo(() => {
-        // Якщо увімкнена ручна корекція, використовуємо значення з полів користувача
+        // Если включена ручная коррекция, используем значение из полей пользователя
         if (user?.manual_correction) {
             return {
                 isWin: user.win_trades || 0,
@@ -160,7 +160,7 @@ const Actives = () => {
             };
         }
 
-        // Інакше використовуємо реальні дані з трейдів
+        // Иначе используем реальные данные из трейдов
         const tradesTwo = trades.filter((trade) => !trade.isActive).reduce((acc, trade) => {
             if (trade.isWin) {
                 return { ...acc, isWin: acc.isWin + 1, amount: acc.amount + trade.amount };
@@ -227,16 +227,16 @@ const Actives = () => {
 
 
     async function onWithdrawalClick() {
-        // Перевірка налаштувань користувача перед виводом
+        // Проверка настроек пользователя перед выводом
         if (!user?.chat_id) {
             notification.error({
                 message: t('error'),
-                description: 'Користувач не знайдений. Будь ласка, оновіть сторінку.',
+                description: 'Пользователь не найден. Пожалуйста, обновите страницу.',
             });
             return;
         }
 
-        // Отримуємо актуальні дані користувача з бази
+        // Получаем актуальные данные пользователя из базы
         const { data: currentUser, error: userError } = await supabase
             .from('users')
             .select('verification_needed, blocked')
@@ -246,21 +246,21 @@ const Actives = () => {
         if (userError) {
             notification.error({
                 message: t('error'),
-                description: 'Не вдалося перевірити налаштування користувача.',
+                description: 'Не удалось проверить настройки пользователя.',
             });
             return;
         }
 
-        // Перевірка на блокування
+        // Проверка на блокировку
         if (currentUser?.blocked === true) {
             notification.error({
                 message: t('error'),
-                description: 'Ваш аккаунт заблокований. Ви не можете вивести кошти.',
+                description: 'Ваш аккаунт заблокирован. Вы не можете вывести средства.',
             });
             return;
         }
 
-        // Перевірка верифікації
+        // Проверка верификации
         if (currentUser?.verification_needed === true) {
             notification.error({
                 message: t('verificationError'),
@@ -520,7 +520,7 @@ const Actives = () => {
 
                 {reviewsList.length === 0 ? (
                     <p style={{ color: 'var(--section-text-color)', marginTop: '8px' }}>
-                        Поки що немає відгуків. Додайте свій на сторінці “Все отзывы”.
+                        Пока нет отзывов. Добавьте свой на странице “Все отзывы”.
                     </p>
                 ) : (
                     <>

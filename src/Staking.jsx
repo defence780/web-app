@@ -17,13 +17,13 @@ const Staking = () => {
     const [open, setOpen] = useState(false);
     const [stakeAmount, setStakeAmount] = useState('');
     const [selectedToken, setSelectedToken] = useState(null);
-    const [stakePeriod, setStakePeriod] = useState(7); // днів
+    const [stakePeriod, setStakePeriod] = useState(7); // дней
     const navigate = useNavigate();
 
-    // Ставки доходності за період (не річні)
+    // Ставки доходности за период (не годовые)
     const apyRates = {
-        7: 4.8,   // 4.8% за 7 днів
-        14: 10.3, // 10.3% за 14 днів
+        7: 4.8,   // 4.8% за 7 дней
+        14: 10.3, // 10.3% за 14 дней
         21: 15.3, // 15.3% за 21 день
     };
 
@@ -34,7 +34,7 @@ const Staking = () => {
             fetchStakes(userData.chat_id);
         }
 
-        // Завантажуємо токени з бази даних
+        // Загружаем токены из базы данных
         const fetchTokens = async () => {
             const { data, error } = await supabase.from('tokens').select('*');
             if (!error && data) {
@@ -141,7 +141,7 @@ const Staking = () => {
         }
 
         try {
-            // Створюємо стейк
+            // Создаём стейк
             const { data: stakeData, error: stakeError } = await supabase
                 .from('stakes')
                 .insert({
@@ -161,7 +161,7 @@ const Staking = () => {
                 throw stakeError;
             }
 
-            // Оновлюємо баланс користувача
+            // Обновляем баланс пользователя
             if (selectedToken.ticker.toUpperCase() === 'USDT') {
                 const newUsdtAmount = parseFloat(user.usdt_amount || 0) - amount;
                 const { error: updateError } = await supabase
@@ -174,7 +174,7 @@ const Staking = () => {
                 }
             }
 
-            // Оновлюємо локальні дані
+            // Обновляем локальные данные
             await fetchUser(user.chat_id);
             await fetchStakes(user.chat_id);
 
@@ -200,7 +200,7 @@ const Staking = () => {
             const stake = stakes.find(s => s.id === stakeId);
             if (!stake) return;
 
-            // Перевіряємо, чи минув період стейкінгу
+            // Проверяем, истёк ли период стейкинга
             const endDate = new Date(stake.end_date);
             const now = new Date();
             const canUnstake = now >= endDate;
@@ -213,12 +213,12 @@ const Staking = () => {
                 return;
             }
 
-            // Обчислюємо нагороди - ставка за весь період
-            const periodRate = stake.apy / 100; // Конвертуємо відсотки в десяткову форму
-            const rewards = stake.amount * periodRate; // Повна ставка за весь період
+            // Вычисляем награды — ставка за весь период
+            const periodRate = stake.apy / 100; // Конвертируем проценты в десятичную форму
+            const rewards = stake.amount * periodRate; // Полная ставка за весь период
             const totalAmount = stake.amount + rewards;
 
-            // Оновлюємо статус стейку
+            // Обновляем статус стейка
             const { error: updateError } = await supabase
                 .from('stakes')
                 .update({ 
@@ -230,7 +230,7 @@ const Staking = () => {
 
             if (updateError) throw updateError;
 
-            // Додаємо кошти на баланс
+            // Добавляем средства на баланс
             if (stake.token_ticker === 'USDT') {
                 const { data: userData } = await supabase
                     .from('users')
@@ -271,9 +271,9 @@ const Staking = () => {
         const totalDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
         const progress = Math.min((daysStaked / totalDays) * 100, 100);
         
-        // Ставка за весь період (не річна)
-        const periodRate = stake.apy / 100; // Конвертуємо відсотки в десяткову форму
-        // Нагороди пропорційно до прогресу
+        // Ставка за весь период (не годовая)
+        const periodRate = stake.apy / 100; // Конвертируем проценты в десятичную форму
+        // Награды пропорционально прогрессу
         const currentRewards = stake.amount * periodRate * (progress / 100);
         const totalRewards = stake.amount * periodRate;
 
@@ -468,12 +468,12 @@ const Staking = () => {
                 <h2>{t('availableTokens')}</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     {(() => {
-                        // Створюємо список доступних токенів, спочатку з бази даних, потім з initialCrypto як резерв
+                        // Создаём список доступных токенов: сначала из базы данных, затем из initialCrypto как резерв
                         const availableTokens = [];
                         const usdtFromTokens = tokens.find(t => t.ticker?.toUpperCase() === 'USDT');
                         const usdtFromCrypto = crypto.find(t => t.ticker?.toUpperCase() === 'USDT');
                         
-                        // Використовуємо токен з бази даних, якщо він є, інакше з initialCrypto
+                        // Используем токен из базы данных, если он есть, иначе из initialCrypto
                         const usdtToken = usdtFromTokens || usdtFromCrypto || {
                             ticker: 'USDT',
                             name: 'Tether',

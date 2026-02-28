@@ -19,7 +19,7 @@ const TransactionHistory = () => {
   const fetchHistory = async () => {
     setLoading(true);
     try {
-      // Завантажуємо виводи
+      // Загружаем выводы
       const { data: withdrawsData, error: withdrawsError } = await supabase
         .from('withdraws')
         .select('*')
@@ -30,7 +30,7 @@ const TransactionHistory = () => {
         setWithdraws(withdrawsData);
       }
 
-      // Завантажуємо депозити з таблиці invoices
+      // Загружаем депозиты из таблицы invoices
       const { data: depositsData, error: depositsError } = await supabase
         .from('invoices')
         .select('*')
@@ -244,7 +244,7 @@ const TransactionHistory = () => {
                 e.currentTarget.style.borderColor = 'rgba(100, 181, 246, 0.3)';
               }}
             >
-              {/* Декоративний фон */}
+              {/* Декоративный фон */}
               <div style={{
                 position: 'absolute',
                 top: 0,

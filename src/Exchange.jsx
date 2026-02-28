@@ -152,7 +152,7 @@ const Exchange = () => {
       if (from === 'RUB') {
         fromCurrency = 'RUB';
         toCurrency = 'USDT';
-        exchangeRate = 1 / parseFloat(rub); // Конвертуємо RUB в USDT
+        exchangeRate = 1 / parseFloat(rub); // Конвертируем RUB в USDT
 
         const rubBalance = parseFloat(user.rub_amount || 0);
         if (rubBalance < amountNum) {
@@ -167,7 +167,7 @@ const Exchange = () => {
       } else {
         fromCurrency = 'USDT';
         toCurrency = 'RUB';
-        exchangeRate = parseFloat(rub); // Конвертуємо USDT в RUB
+        exchangeRate = parseFloat(rub); // Конвертируем USDT в RUB
 
         const usdtBalance = parseFloat(user.usdt_amount || 0);
         if (usdtBalance < amountNum) {
@@ -197,7 +197,7 @@ const Exchange = () => {
       }
       setOptimisticBalances(optimistic);
 
-      // Використовуємо атомарну транзакцію для обміну
+      // Используем атомарную транзакцию для обмена
       console.log('[EXCHANGE] Calling atomic-transactions function:', {
         operation: 'exchange',
         chat_id: user.chat_id,
@@ -243,7 +243,7 @@ const Exchange = () => {
         return;
       }
 
-      // Оновлюємо локальний стан користувача
+      // Обновляем локальное состояние пользователя
       const updatedUser = {
         ...user,
         rub_amount: fromCurrency === 'RUB' ? atomicResult.newFromBalance : atomicResult.newToBalance,

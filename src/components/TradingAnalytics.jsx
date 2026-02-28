@@ -29,7 +29,7 @@ const TradingAnalytics = ({ trades, user }) => {
         }
     };
 
-    // Фільтрація угод по періоду
+    // Фильтрация сделок по периоду
     const filteredTrades = useMemo(() => {
         if (!trades || trades.length === 0) return [];
         
@@ -60,7 +60,7 @@ const TradingAnalytics = ({ trades, user }) => {
         });
     }, [trades, period]);
 
-    // Розширена статистика торгівлі
+    // Расширенная статистика торговли
     const advancedStats = useMemo(() => {
         const completedTrades = filteredTrades.filter(t => t.isWin !== null);
         
@@ -98,7 +98,7 @@ const TradingAnalytics = ({ trades, user }) => {
         };
     }, [filteredTrades]);
 
-    // Статистика по періодах
+    // Статистика по периодам
     const periodStats = useMemo(() => {
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -131,7 +131,7 @@ const TradingAnalytics = ({ trades, user }) => {
             }, 0);
         };
 
-        // Найактивніші дні
+        // Самые активные дни
         const tradesByDay = {};
         trades.filter(t => !t.isActive).forEach(trade => {
             const date = new Date(trade.created_at);
@@ -170,18 +170,18 @@ const TradingAnalytics = ({ trades, user }) => {
         };
     }, [trades]);
 
-    // Дані для графіка доходності
+    // Данные для графика доходности
     const chartData = useMemo(() => {
         if (!trades || trades.length === 0) {
             return { dates: [], balances: [] };
         }
 
-        // Об'єднуємо всі транзакції та угоди
+        // Объединяем все транзакции и сделки
         const allEvents = [
             ...deposits.map(d => ({
                 date: new Date(d.created_at),
                 type: 'deposit',
-                amount: parseFloat(d.amount) / 79, // Конвертуємо RUB в USDT (приблизно)
+                amount: parseFloat(d.amount) / 79, // Конвертируем RUB в USDT (приблизительно)
                 usdtAmount: parseFloat(d.amount) / 79
             })),
             ...withdraws.map(w => ({
@@ -192,7 +192,7 @@ const TradingAnalytics = ({ trades, user }) => {
             })),
             ...trades.filter(t => !t.isActive && t.isWin !== null).map(t => {
                 const tradeAmount = parseFloat(t.amount);
-                // Прибуток/збиток від угоди
+                // Прибыль/убыток от сделки
                 // Якщо виграв: отримує amount * 0.75 (це чистий прибуток після повернення ставки)
                 // Якщо програв: втрачає amount (чистий збиток)
                 const netResult = t.isWin ? tradeAmount * 0.75 : -tradeAmount;
@@ -204,7 +204,7 @@ const TradingAnalytics = ({ trades, user }) => {
             })
         ].sort((a, b) => a.date - b.date);
 
-        // Розраховуємо баланс в кожній точці
+        // Рассчитываем баланс в каждой точке
         let currentBalance = 0;
         const dates = [];
         const balances = [];
@@ -215,7 +215,7 @@ const TradingAnalytics = ({ trades, user }) => {
             balances.push(currentBalance);
         });
 
-        // Додаємо поточну дату з поточним балансом
+        // Добавляем текущую дату с текущим балансом
         if (user) {
             const currentBalanceUsdt = parseFloat(user.usdt_amount || 0);
             dates.push(new Date());
@@ -282,7 +282,7 @@ const TradingAnalytics = ({ trades, user }) => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Фільтр періоду */}
+            {/* Фильтр периода */}
             <section className="section">
                 <h2>{t('tradingAnalytics')}</h2>
                 <div style={{
@@ -320,7 +320,7 @@ const TradingAnalytics = ({ trades, user }) => {
                     ))}
                 </div>
 
-                {/* Розширена статистика */}
+                {/* Расширенная статистика */}
                 <div style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -434,7 +434,7 @@ const TradingAnalytics = ({ trades, user }) => {
                 )}
             </section>
 
-            {/* Статистика по періодах */}
+            {/* Статистика по периодам */}
             <section className="section">
                 <h2>{t('statisticsByPeriods')}</h2>
                 <div style={{
@@ -443,7 +443,7 @@ const TradingAnalytics = ({ trades, user }) => {
                     gap: '15px',
                     marginBottom: '20px'
                 }}>
-                    {/* Сьогодні */}
+                    {/* Сегодня */}
                     <div style={{
                         background: 'var(--section-background-color)',
                         padding: '20px',
@@ -475,7 +475,7 @@ const TradingAnalytics = ({ trades, user }) => {
                         </div>
                     </div>
 
-                    {/* Тиждень */}
+                    {/* Неделя */}
                     <div style={{
                         background: 'var(--section-background-color)',
                         padding: '20px',
@@ -540,7 +540,7 @@ const TradingAnalytics = ({ trades, user }) => {
                     </div>
                 </div>
 
-                {/* Найактивніший день */}
+                {/* Самый активный день */}
                 {periodStats.mostActiveDay && (
                     <div style={{
                         background: 'var(--section-background-color)',

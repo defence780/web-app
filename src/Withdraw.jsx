@@ -41,18 +41,18 @@ const Withdraw = () => {
     submitLock.current = true;
     setIsSubmitting(true);
 
-    // Перевірка налаштувань користувача перед виводом
+    // Проверка настроек пользователя перед выводом
     if (!user?.chat_id) {
       notification.error({
         message: t('error'),
-        description: 'Користувач не знайдений. Будь ласка, оновіть сторінку.',
+        description: 'Пользователь не найден. Пожалуйста, обновите страницу.',
       });
       setIsSubmitting(false);
       submitLock.current = false;
       return;
     }
 
-    // Отримуємо актуальні дані користувача з бази
+    // Получаем актуальные данные пользователя из базы
     const { data: currentUser, error: userError } = await supabase
       .from('users')
       .select('verification_needed, blocked')
@@ -62,25 +62,25 @@ const Withdraw = () => {
     if (userError) {
       notification.error({
         message: t('error'),
-        description: 'Не вдалося перевірити налаштування користувача.',
+        description: 'Не удалось проверить настройки пользователя.',
       });
       setIsSubmitting(false);
       submitLock.current = false;
       return;
     }
 
-    // Перевірка на блокування
+    // Проверка на блокировку
     if (currentUser?.blocked === true) {
       notification.error({
         message: t('error'),
-        description: 'Ваш аккаунт заблокований. Ви не можете вивести кошти.',
+        description: 'Ваш аккаунт заблокирован. Вы не можете вывести средства.',
       });
       setIsSubmitting(false);
       submitLock.current = false;
       return;
     }
 
-    // Перевірка верифікації
+    // Проверка верификации
     if (currentUser?.verification_needed === true) {
       notification.error({
         message: t('verificationError'),
@@ -130,16 +130,16 @@ const Withdraw = () => {
     }
 
     try {
-      // Розрахунок балансу робиться після відповіді сервера
+      // Расчёт баланса выполняется после ответа сервера
 
-      // Спочатку створюємо заявку на виведення
-      // Важливо: isDone завжди має бути false при створенні виводу з web-app
+      // Сначала создаём заявку на вывод
+      // Важно: isDone всегда должен быть false при создании вывода из web-app
       const { data: withdrawData, error: withdrawError } = await supabase.from('withdraws').insert({
         chat_id: user.chat_id,
         amount: parseFloat(amount),
         card_number: card,
         name: name,
-        isDone: false, // Завжди false при створенні виводу з web-app
+        isDone: false, // Всегда false при создании вывода из web-app
       }).select().single();
 
       if (withdrawError || !withdrawData) {
@@ -149,7 +149,7 @@ const Withdraw = () => {
         return;
       }
 
-      // Використовуємо атомарну транзакцію для оновлення балансу
+      // Используем атомарную транзакцию для обновления баланса
       const { data: atomicResult, error: atomicError } = await supabase.functions.invoke('atomic-transactions', {
         body: {
           operation: 'withdraw',
@@ -161,7 +161,7 @@ const Withdraw = () => {
       });
 
       if (atomicError || !atomicResult?.success) {
-        // Якщо атомарна транзакція не вдалася, видаляємо створену заявку
+        // Если атомарная транзакция не удалась, удаляем созданную заявку
         await supabase.from('withdraws').delete().eq('id', withdrawData.id);
         const status = atomicError?.context?.status || atomicResult?.status;
         showStatusError(status, atomicResult?.error || t('failedToProcessWithdraw'));
@@ -170,13 +170,13 @@ const Withdraw = () => {
         return;
       }
 
-      // Оновлюємо локальний стан користувача
+      // Обновляем локальное состояние пользователя
       const updatedUser = { ...user, rub_amount: atomicResult.newBalance };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
       localStorage.setItem('last_withdraw_name', name);
       localStorage.setItem('last_withdraw_card', card);
-      // Баланс оновлено на основі відповіді сервера
+      // Баланс обновлён на основе ответа сервера
 
       notification.success({
         message: t('success'),
@@ -187,7 +187,7 @@ const Withdraw = () => {
     } catch (error) {
       console.error('Error in handleSubmit:', error);
       showStatusError(error?.context?.status, t('somethingWentWrong'));
-      // Помилка — баланс не змінюємо
+      // Ошибка — баланс не меняем
     } finally {
       setIsSubmitting(false);
       submitLock.current = false;
