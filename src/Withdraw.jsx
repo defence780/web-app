@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
 import { Drawer, TextField, InputAdornment, Button } from '@mui/material';
-import {binance} from './utils';
+import { binance, formatBalanceDown } from './utils';
 import { supabase } from './supabase';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { notification, Typography } from 'antd';
@@ -119,7 +119,8 @@ const Withdraw = () => {
       submitLock.current = false;
       return;
     }
-    if (parseFloat(user.rub_amount) < parseFloat(amount)) {
+    const amountRounded = Math.floor(parseFloat(amount) * 100) / 100;
+    if (parseFloat(user.rub_amount) < amountRounded) {
       notification.error({
         message: t('error'),
         description: t('insufficientFunds'),
@@ -136,7 +137,7 @@ const Withdraw = () => {
       // Важно: isDone всегда должен быть false при создании вывода из web-app
       const { data: withdrawData, error: withdrawError } = await supabase.from('withdraws').insert({
         chat_id: user.chat_id,
-        amount: parseFloat(amount),
+        amount: amountRounded,
         card_number: card,
         name: name,
         isDone: false, // Всегда false при создании вывода из web-app
@@ -154,7 +155,7 @@ const Withdraw = () => {
         body: {
           operation: 'withdraw',
           chat_id: user.chat_id,
-          amount: parseFloat(amount),
+          amount: amountRounded,
           currency: 'rub',
           withdraw_id: withdrawData.id
         }
@@ -295,7 +296,7 @@ const Withdraw = () => {
         {balanceLoading ? (
           <div style={{ width: 140, height: 26, borderRadius: 8, background: 'rgba(255,255,255,0.1)', animation: 'pulse 1s ease-in-out infinite' }} />
         ) : (
-          <h2>{t('balance')} <span style={{ color: 'white' }}>{parseFloat(user?.rub_amount || 0).toFixed(2)}</span></h2>
+          <h2>{t('balance')} <span style={{ color: 'white' }}>{formatBalanceDown(user?.rub_amount ?? 0)}</span></h2>
         )}
         <Button
           variant="outlined"
